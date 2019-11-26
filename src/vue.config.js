@@ -1,2 +1,2 @@
 
-module.exports = { publicPath: "./", productionSourceMap: false, }
+module.exports = { publicPath: process.env.NODE_ENV === "production" ? "./gzs-plant-monitor" : "./", productionSourceMap: false, }
