@@ -1,2 +1,2 @@
 
-module.exports = { baseUrl: "./", productionSourceMap: false, }
+module.exports = { publicPath: "./", productionSourceMap: false, }
