@@ -1,26 +1,40 @@
 <template>
-  <el-scrollbar>
-    <div class="sidebar">
-      <div class="information">
-        <div class="title">入侵说明</div>
-        <div class="article">
-          21个监测点的调查情况，包括15个入侵监测点和6个原生境保护区。展示了面积分布和数量分布及调查详情。
-        </div>
+  <div class="sidebar">
+    <div class="card" style="max-height:120px;">
+      <div class="title">
+        <i class="icon el-icon-chat-dot-square"></i>入侵说明
+      </div>
+      <div class="content">
+        <span>21个监测点的调查情况，包括15个入侵监测点和6个原生境保护区。展示了面积分布和数量分布及调查详情。</span>
         <el-link type="primary" href="/测试下载文件.docx" download>下载说明文件</el-link>
-        <el-divider></el-divider>
-      </div>
-      <div class="scale">
-        <div class="title">各区县入侵面积比例</div>
-        <div class="chart">
-          <ve-pie :data="pieData" v-if="provincesTableReady"></ve-pie>
-        </div>
-      </div>
-      <div class="ranking">
-        <div class="title">入侵植物排名</div>
-        <ve-bar :data="barData" :setting="rankingSetting"></ve-bar>
       </div>
     </div>
-  </el-scrollbar>
+    <div class="card" style="min-height:350px;max-height:400px;">
+      <div class="title">
+        <i class="icon el-icon-pie-chart"></i>各区县入侵面积比例
+      </div>
+      <div class="content">
+        <ve-pie :data="pieData" v-if="provincesTableReady"></ve-pie>
+      </div>
+    </div>
+    <div class="card">
+      <div class="title">
+        <i class="icon el-icon-medal-1"></i>入侵植物排名
+      </div>
+      <el-table :data="barRows" size="mini" height="100%" v-if="provincesTableReady">
+        <el-table-column
+          v-for="col in Object.keys(barRows[0])"
+          :key="col"
+          :prop="col"
+          :label="col"
+          :resizable="true"
+          :show-overflow-tooltip="true"
+          :sortable="true"
+          :stripe="true"
+        ></el-table-column>
+      </el-table>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -40,19 +54,25 @@ export default {
   },
   computed: {
     pieData() {
-      const data = this.rows.filter(el => el["面积"] > 10000);
+      let data = {},
+        result = [];
+      this.rows.forEach(row => {
+        let name = row["地州市"];
+        if (name) {
+          if (name in data) {
+            data[name] += row["面积"];
+          } else {
+            data[name] = row["面积"];
+          }
+        }
+      });
+      for (let key in data) {
+        result.push({ 地州市: key, 面积: data[key] });
+      }
+
       return {
-        columns: ["县名", "面积"],
-        rows: data
-      };
-    },
-    barData() {
-      const data = this.barRows
-        .filter(el => el["面积"] > 0)
-        .sort((a, b) => b["面积"] - a["面积"]);
-      return {
-        columns: ["入侵种类", "面积"],
-        rows: data
+        columns: ["地州市", "面积"],
+        rows: result
       };
     }
   }
@@ -60,36 +80,48 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../styles/variables.scss";
 .el-scrollbar__wrap {
   overflow-x: hidden !important;
 }
 
 .sidebar {
   width: 25vw;
+  max-width: 350px;
   height: 100%;
-  background-color: #fff;
-  padding: 10px 10px;
-  .title {
-    color: #303133;
-    font-weight: 500;
-    font-size: 13px;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #f1f2f5;
+  .card {
+    flex: 1;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
     margin-bottom: 10px;
-  }
-  .article {
-    font-size: 13px;
-    font-weight: 400;
-    color: #303133;
-    line-height: 1.7;
-    margin: 10px 0px;
+    &:last-child {
+      margin-bottom: 0px;
+    }
+    .title {
+      color: #fff;
+      background-color: $primaryColor;
+      font-weight: 500;
+      font-size: 14px;
+      text-align: center;
+      padding: 10px;
+    }
+    .content {
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 400;
+      color: #303133;
+      line-height: 1.7;
+    }
   }
 }
 </style>
 
 
 <style lang="scss" scoped>
-.sidebar {
-  .information {
-  }
-}
 </style>

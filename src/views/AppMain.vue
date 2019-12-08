@@ -1,37 +1,37 @@
 <template>
-  <div class="app-main">
-    <sidebar
-      :rows="provincesTable"
-      :barRows="barRows"
-      :provincesTableReady="isProvincesTableReady"
-    />
+  <div class="app-main" v-loading.fullscreen.lock="fullscreenLoading">
+    <sidebar :rows="provincesTable" :barRows="barRows" :provincesTableReady="isArea" />
     <main-map>
-      <monitor-path
-        :geojson="shpData"
-        :firstLoad="isFirstLoad"
-        v-if="isPath"
-        @firstLoadEnd="firstLoadEnd"
-      />
+      <monitor-path :geojson="shpData" v-if="isArea" />
       <provinces :geojson="provinces" v-if="isArea" />
-      <monitor-marker v-if="isMarker" />
+      <monitor-marker />
+      <!-- 巡查路线 -->
+      <ant-path layerType="overlay" name="调查路线" :visible="false"></ant-path>
     </main-map>
 
-    <rightbar :tableData="tableData" :tableReady="tableReady" />
+    <rightbar :tableData="tableData" :category="categoryStatistics[0]" :tableReady="isArea" />
 
     <div class="tool-bar">
       <el-button type="primary" size="medium" @click="visible =true">监测点属性表</el-button>
-      <el-button type="primary" size="medium" @click="isPath = isPath==true?false:true">调查路径</el-button>
-      <el-button type="primary" size="medium" @click="isMarker = isMarker==true?false:true">数量分布</el-button>
-      <el-button type="primary" size="medium" @click="isArea = isArea==true?false:true">面积分布</el-button>
     </div>
 
-    <el-dialog :visible.sync="visible" title="入侵监测点" width="70%" :modal="false">
-      <el-table :data="tableData" height="400" v-if="tableReady">
+    <el-dialog :visible.sync="visible" width="80%" :modal="true" v-if="isArea">
+      <div slot="title" class="dialog-head">
+        <span style="margin-right:10px;font-size:12px;color:#606266;">选择类型：</span>
+        <el-select v-model="tableType" placeholder="请选择" size="mini">
+          <el-option v-for="item in Object.keys(tableData)" :key="item" :label="item" :value="item"></el-option>
+        </el-select>
+      </div>
+
+      <el-table :data="tableData[tableType]" height="400" :border="true" size="mini">
         <el-table-column
-          v-for="col in Object.keys(tableData[0])"
+          v-for="col in Object.keys(tableData[tableType][0])"
           :key="col"
           :prop="col"
           :label="col"
+          :resizable="true"
+          :show-overflow-tooltip="true"
+          :sortable="true"
         ></el-table-column>
       </el-table>
     </el-dialog>
@@ -45,7 +45,7 @@ import MainMap from "./MainMap";
 import MonitorPath from "../components/MonitorPath";
 import MonitorMarker from "../components/MonitorMarker";
 import Provinces from "../components/Provinces";
-
+import AntPath from "../components/AntPath";
 import gzs from "../../public/gzs.json";
 import shp from "shpjs";
 import { loadRemoteFile, xlsJoinShp } from "../utils/util";
@@ -57,18 +57,17 @@ export default {
     MainMap,
     MonitorPath,
     MonitorMarker,
-    Provinces
+    Provinces,
+    AntPath
   },
   data() {
     return {
-      isPath: false,
-      isMarker: true,
+      fullscreenLoading: true,
       isArea: false,
-      isFirstLoad: true,
-      tableData: [],
-      tableReady: false,
+      tableData: { 入侵点: [], 原生境: [] },
+      categoryStatistics: [],
+      tableType: "入侵点",
       provincesTable: [],
-      isProvincesTableReady: false,
       barRows: [],
       visible: false
     };
@@ -77,17 +76,19 @@ export default {
     this.getShp();
   },
   methods: {
-    getShp() {
-      shp("/监测点.zip").then(geojson => {
-        this.shpData = this.combineFeature(geojson);
-        this.getXls();
-      });
+    async getShp() {
+      const orginShpData = await shp(`${this.base_url}监测点.zip`);
+      this.orginShpData = this.combineFeature(orginShpData);
+      this.categoryStatistics = await loadRemoteFile(
+        `${this.base_url}区县种类.xlsx`
+      );
+      this.getXls();
     },
-    getXls() {
-      loadRemoteFile("/监测点信息.xlsx", 0, this.combineValue2Name);
-      loadRemoteFile("/监测点信息.xlsx", 1, this.combineValue2Name);
-      loadRemoteFile("/入侵面积统计.xlsx", 0, this.initRank);
-      loadRemoteFile("/入侵面积统计.xlsx", 1, this.combineProvinces);
+    async getXls() {
+      const res = await loadRemoteFile(`${this.base_url}监测点信息.xlsx`);
+      this.combineValue2Name(res);
+      this.fullscreenLoading = false;
+      this.initRank(await loadRemoteFile(`${this.base_url}入侵面积统计.xlsx`));
     },
     combineFeature(geojsonList) {
       let data = {
@@ -106,44 +107,54 @@ export default {
       return data;
     },
     combineValue2Name(xlsData) {
-      xlsJoinShp([xlsData, "编码"], [this.shpData, "BH"]);
+      let sheet1Combine = xlsJoinShp(
+        { data: xlsData[0], key: "编码" },
+        { data: this.orginShpData, key: "BH" }
+      );
+
+      this.shpData = xlsJoinShp(
+        { data: xlsData[1], key: "编码" },
+        { data: sheet1Combine, key: "BH" }
+      );
       this.shp2table();
     },
     shp2table() {
-      this.shpkeys = Object.keys(this.shpData.features[0].properties);
       for (let i = 0; i < this.shpData.features.length; i++) {
         let properties = this.shpData.features[i].properties;
-        this.tableData[i] = properties;
-
-        // this.tableData[i] = {
-        //   name: properties.O_Name,
-        //   type: properties["入侵监测物种"] || properties["主要保护物种"],
-        //   percent: properties["侵入程度/类型"] || "",
-        //   area: properties["监测面积"] || "",
-        //   landType: properties["地类"] || "",
-        //   allArea: properties["总面积"] || "",
-        //   coreArea: properties["核心区"] || "",
-        //   bufferArea: properties["缓冲区"] || ""
-        // };
+        if (properties["保护区名称"]) {
+          this.tableData.原生境.push(properties);
+        } else {
+          this.tableData.入侵点.push(properties);
+        }
       }
-      this.tableReady = true;
     },
     provinces2table() {
-      gzs.features.forEach(element => {
+      this.provinces.features.forEach(element => {
         this.provincesTable.push(element.properties);
       });
     },
     initRank(rankData) {
-      this.barRows = rankData;
+      this.barRows = rankData[0];
+      this.combineProvinces(rankData[1]);
     },
+
     combineProvinces(xlsData) {
-      xlsJoinShp([xlsData, "县名"], [gzs, "NAME"]);
-      this.provinces = gzs;
+      this.provinces = xlsJoinShp(
+        { data: xlsData, key: "县名" },
+        { data: gzs, key: "NAME" }
+      );
       this.provinces2table();
-      this.isProvincesTableReady = true;
+      this.isArea = true;
     },
-    firstLoadEnd() {
-      this.isFirstLoad = false;
+    //调查路线样式
+    pathStyleFunc() {
+      let options = {
+        weight: 3,
+        opacity: 1,
+        color: "#55b0a0"
+        // dashArray: "1",
+      };
+      return options;
     }
   }
 };
@@ -154,5 +165,11 @@ export default {
   width: 100%;
   height: calc(100% - 50px);
   display: flex;
+  .el-dialog__header {
+    padding: 10px;
+  }
+  .el-dialog__body {
+    padding: 0px;
+  }
 }
 </style>

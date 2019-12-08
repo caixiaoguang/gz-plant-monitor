@@ -3,27 +3,44 @@
     :geojson="geojson"
     :optionsStyle="styleFunction"
     :options="options"
-    @ready="geoJsonObjReady"
+    @ready="geojsonObjReady"
+    layer-type="overlay"
+    name="面积分布"
+    :visible="false"
   ></l-geo-json>
 </template>
 
 <script>
 import { LGeoJson } from "vue2-leaflet";
-import gzs from "../../public/gzs.json";
-import { loadRemoteFile, xlsJoinShp } from "../utils/util";
+import geojsonMixin from "../mixins/geojsonOptions";
 const colorList = [
-  "#FFEDA0",
-  "#FED976",
-  "#FEB24C",
-  "#FD8D3C",
-  "#FC4E2A",
-  "#BD0026",
-  "#800026"
+  "#2bb6ab",
+  "#6bcaa8",
+  "#abdda4",
+  "#d5eeb2",
+  "#ffffbf",
+  "#feca82",
+  "#f69653",
+  "#eb713d",
+  "#d73018",
+  'red'
 ];
 
-const colorGrades = [0, 5000, 10000, 15000, 20000, 25000, 30000];
+const colorGrades = [
+  0,
+  7,
+  503.6,
+  5254.5,
+  9772.6,
+  13992,
+  95234,
+  1050500,
+  1850000,
+  2700000
+];
 
 export default {
+  mixins: [geojsonMixin],
   props: {
     geojson: { type: Object, default: () => {} }
   },
@@ -36,7 +53,7 @@ export default {
   computed: {
     options() {
       return {
-        onEachFeature: this.onEachFeatureFunc,
+        onEachFeature: this.createOnEachFeatureFunc(),
         pointToLayer: this.pointToLayerFunc
       };
     }
@@ -44,58 +61,38 @@ export default {
   created() {},
   mounted() {},
   beforeDestroy() {
-    this.$map.removeControl(this.legend);
+    // this.$map.removeControl(this.legend);
   },
   methods: {
     styleFunction(layer) {
       return {
         fillColor: this.getColor(layer.properties["面积"] || 0),
-        weight: 2,
+        weight: 0.5,
         opacity: 1,
-        color: "green",
-        dashArray: "3",
-        fillOpacity: 0.7
+        color: "#000",
+        // dashArray: "3",
+        fillOpacity: 0.9
       };
     },
-    geoJsonObjReady(obj) {
-      this.geoJsonObj = obj;
-      this.initLegend();
-      this.$map.fitBounds(obj.getBounds());
+    getTooltipContent(feature, keys) {
+      let content =
+        feature.properties["NAME"] +
+        "<br>" +
+        feature.properties["面积"] +
+        "(亩)";
+      return content;
     },
-    //高亮鼠标划过区域
-    highlightFeature(e) {
-      var layer = e.target;
-      layer.setStyle({
-        weight: 3,
-        color: "red",
-        dashArray: "",
-        fillOpacity: 0.7
-      });
 
-      if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-        layer.bringToFront();
-      }
-    },
-    //重置样式
-    resetHighlight(e) {
-      this.geoJsonObj.resetStyle(e.target);
-    },
-    //点击缩放
-    zoomToFeature(e) {
-      this.$map.fitBounds(e.target.getBounds());
-    },
-    onEachFeatureFunc(feature, layer) {
-      let name = feature.properties.NAME;
-      let value = feature.properties["面积"];
-      layer.on({
-        mouseover: this.highlightFeature,
-        mouseout: this.resetHighlight,
-        click: this.zoomToFeature
+    geojsonObjReadyCallback(geojsonObj) {
+      this.geojsonObj.bringToBack();
+      // this.initLegend();
+      this.geojsonObj.on("remove", () => {
+        this.$map.removeControl(this.legend);
       });
-      layer.bindTooltip(name + "<br>" + value + "(亩)", {
-        direction: "top",
-        sticky: true
+      this.geojsonObj.on("add", () => {
+        this.initLegend();
       });
+      this.$map.fitBounds(this.geojsonObj.getBounds());
     },
     //获取颜色代码
     getColor(value) {

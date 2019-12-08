@@ -6,8 +6,12 @@ import store from './store'
 import 'normalize.css'
 import './styles/index.scss'
 
+import './assets/font/iconfont'
+import './assets/font/iconfont.css'
+
 import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import './styles/element-variables.scss'
+// import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
 import VCharts from 'v-charts'
@@ -24,6 +28,9 @@ Icon.Default.mergeOptions({
   iconUrl: require('leaflet/dist/images/marker-icon.png'),
   shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
+
+Vue.prototype.base_url = process.env.BASE_URL;
+
 
 new Vue({
   router,
