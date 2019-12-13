@@ -18,6 +18,7 @@
         :optionsStyle="createStyleFunction({fillColor:'#ccc',color:'#fff'})"
         layer-type="overlay"
         name="行政区划"
+        :visible="false"
         @ready="geojsonObjReady"
       ></l-geo-json>
     </l-map>

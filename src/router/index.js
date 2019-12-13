@@ -14,7 +14,8 @@ const routes = [
       path: 'monitor-console',
       component: () => import('../views/AppMain.vue')
     }, {
-      path: 'monitor-detail',
+      path: 'monitor-detail/:id/:address',
+      name: 'monitorDetail',
       component: () => import('../views/monitorDetail/index.vue')
     }]
   },

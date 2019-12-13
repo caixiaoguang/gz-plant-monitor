@@ -91,10 +91,12 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  // justify-content: space-between;
   background-color: #f1f2f5;
   .card {
     flex: 1;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     background-color: #fff;
     border-radius: 10px;

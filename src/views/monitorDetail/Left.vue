@@ -7,6 +7,7 @@
           <i class="priview el-icon-view" @click="detailVisible=true"></i>
         </el-tooltip>
       </div>
+
       <el-table
         :data="monitorInfo"
         size="mini"
@@ -21,24 +22,32 @@
 
     <div class="card print">
       <div class="title">
-        <i class="icon el-icon-printer"></i>打印预览
+        <i class="icon el-icon-s-flag"></i>样地列表
       </div>
-      <!-- <div class="content">
-        <el-button type="primary" plain round size="mini" @click="$emit('preview')">监测点概况</el-button>
-        <el-button type="primary" plain round size="mini">监测样地</el-button>
-      </div>-->
+
       <el-table :data="exampleInfo" size="mini" :stripe="true" height="100%">
         <el-table-column prop="样方编号" label="样方编号"></el-table-column>
         <el-table-column prop="组（小地名）" label="组（小地名）"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="primary"
-              plain
-              icon="el-icon-view"
-              @click="handleView(scope.$index, scope.row)"
-            >预览</el-button>
+            <el-tooltip class="item" effect="dark" content="预览" placement="left">
+              <el-button
+                size="mini"
+                type="primary"
+                plain
+                icon="el-icon-view"
+                @click="handleView(scope.$index, scope.row)"
+              ></el-button>
+            </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="定位" placement="right">
+              <el-button
+                size="mini"
+                type="primary"
+                plain
+                icon="el-icon-position"
+                @click="location(scope.row)"
+              ></el-button>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -76,6 +85,9 @@
 <script>
 import MonitorDetail from "./printPage/MonitorDetail";
 import ExampleFieldDetail from "./printPage/ExampleFiled";
+import "leaflet.marker.highlight";
+import "leaflet.marker.highlight/dist/leaflet.marker.highlight.css";
+
 const monitorInfoKeys = [
   "初次入侵时间",
   "造成的主要经济危害及损失",
@@ -91,8 +103,8 @@ const monitorInfoKeys = [
 ];
 export default {
   props: {
-    detail: { type: Object },
-    exampleDetail: { type: Object }
+    detail: { type: Object, defalut: () => {} },
+    exampleDetail: { type: Object, defalut: () => {} }
   },
   components: {
     MonitorDetail,
@@ -108,6 +120,7 @@ export default {
   computed: {
     monitorInfo() {
       let result = [];
+      if (!this.detail) return;
       monitorInfoKeys.forEach(key => {
         let value = this.detail[key] || "";
         result.push({ key: key, value: value });
@@ -118,7 +131,9 @@ export default {
       if (Object.keys(this.exampleDetail).length == 0) return [];
       let result = [];
       this.exampleDetail.features.forEach(el => {
-        result.push(el["properties"]);
+        el.properties.lat = el.geometry.coordinates[1];
+        el.properties.lng = el.geometry.coordinates[0];
+        result.push(el.properties);
       });
       return result;
     }
@@ -127,6 +142,17 @@ export default {
     handleView(index, row) {
       this.exampleTableNum = index;
       this.exampleVisible = true;
+    },
+    location(row) {
+      if (this.marker) {
+        this.marker.disablePermanentHighlight();
+        this.$map.removeLayer(this.marker);
+      }
+      this.marker = L.marker([row.lat, row.lng], {
+        highlight: "permanent",
+        icon:L.divIcon({className: 'my‐di‐icon'})
+      }).addTo(this.$map);
+      this.$map.setView([row.lat, row.lng]);
     },
     printContent(id) {
       let subOutputRankPrint = document.getElementById(id);
@@ -155,7 +181,6 @@ export default {
 <style lang="scss" scope>
 .sidebar {
   .monitor-info {
-    height: 40%;
     .priview {
       float: right;
       margin-right: 10px;
@@ -169,7 +194,9 @@ export default {
     }
   }
   .print {
-    text-align: center;
+    .el-button {
+      padding: 5px 10px;
+    }
   }
   .img-box {
     margin-bottom: 0px;

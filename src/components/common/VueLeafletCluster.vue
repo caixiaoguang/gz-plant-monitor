@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { MarkerClusterGroup } from "leaflet.markercluster";
+import { MarkerClusterGroup } from 'leaflet.markercluster';
 import { findRealParent, propsBinder, layer } from "vue2-leaflet";
 import { DomEvent } from "leaflet";
 const props = {

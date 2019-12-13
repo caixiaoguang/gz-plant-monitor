@@ -5,8 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    monitorAddress: ''
   },
   mutations: {
+    setMonitorAddress(state, address) {
+      state.monitorAddress = address;
+    }
   },
   actions: {
   },

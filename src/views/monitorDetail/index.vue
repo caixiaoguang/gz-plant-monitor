@@ -10,10 +10,23 @@
         :options="monitorOptions"
         @ready="geojsonObjReady"
         layerType="overlay"
+        :visible="false"
         name="监测点"
       ></l-geo-json>
 
-      <l-geo-json v-if="geojsonReady" :geojson="markerGeojson" :options="exampleFiledOptions"></l-geo-json>
+      <!-- <l-wms-tile-layer /> -->
+      <wms-layer url="http://www.scgis.net.cn/imap/iMapServer/defaultRest/services/newtianditudom/WMS"></wms-layer>
+
+      <heatmap :pointId="pointId" />
+
+      <l-geo-json
+        v-if="geojsonReady"
+        :geojson="markerGeojson"
+        :options="exampleFiledOptions"
+        @ready="exampleGeojsonObjReady"
+        layer-type="overlay"
+        name="监测样地"
+      ></l-geo-json>
     </main-map>
     <right />
   </div>
@@ -23,8 +36,9 @@
 import Left from "./Left";
 import Right from "./Right";
 import MainMap from "../MainMap";
-import { LGeoJson } from "vue2-leaflet";
-import MarkerCluster from "vue2-leaflet-markercluster";
+import Heatmap from "../../components/Heatmap";
+import WmsLayer from "../../components/WmsLayer";
+import { LGeoJson, LWMSTileLayer } from "vue2-leaflet";
 import { loadRemoteFile, xlsJoinShp, degree2decimal } from "../../utils/util";
 import geojsonOptions from "../../mixins/geojsonOptions.js";
 import shp from "shpjs";
@@ -37,18 +51,21 @@ const colorDic = {
   严重: "red"
 };
 export default {
+  name: "monitorDetail",
   mixins: [geojsonOptions],
   components: {
     Left,
     Right,
     MainMap,
     LGeoJson,
-    MarkerCluster
+    LWMSTileLayer,
+    Heatmap,
+    WmsLayer
   },
   data() {
     return {
       fullscreenLoading: true,
-      pointId: this.$route.query.id,
+      pointId: this.$route.params.id,
       geojsonReady: false,
       detail: {},
       markerGeojson: {}
@@ -73,13 +90,17 @@ export default {
     }
   },
   created() {
-    shp(`${this.base_url}监测点.zip`).then(geojson => {
-      this.getPolygon(geojson);
-      loadRemoteFile(`${this.base_url}监测点详情.xlsx`).then(res => {
-        this.getDetail(res);
-        this.fullscreenLoading = false;
-      });
-    });
+    shp(`${this.base_url}监测点.zip`)
+      .then(geojson => {
+        this.getPolygon(geojson);
+        loadRemoteFile(`${this.base_url}监测点详情.xlsx`)
+          .then(res => {
+            this.getDetail(res);
+            this.fullscreenLoading = false;
+          })
+          .catch(() => (this.fullscreenLoading = false));
+      })
+      .catch(() => (this.fullscreenLoading = false));
   },
   methods: {
     getPolygon(geojson) {
@@ -182,7 +203,11 @@ export default {
     },
     geojsonObjReadyCallback(e) {
       this.$map.fitBounds(e.getBounds());
-    }
+    },
+    exampleGeojsonObjReady(e) {
+      this.exampleObj = e;
+    },
+    loicationExample() {}
   }
 };
 </script>

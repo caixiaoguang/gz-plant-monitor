@@ -1,12 +1,10 @@
 <template>
   <div class="nav">
-    <!-- <el-button size="mini" type="info" v-if="isList" @click="$router.go(-1)">返回</el-button> -->
     <div class="web-font title" @click="goHome">
       <i class="home iconfont icon-zhuye"></i>
-      <span v-if="!isHome">贵州省农业外来入侵植物监测台</span>
-      <span v-else>{{subTitle}}</span>
+      <!-- <span v-if="!isHome">贵州省农业外来入侵植物监测台</span> -->
+      <!-- <span v-else>{{subTitle}}</span> -->
     </div>
-    <!-- <div class="sub-title web-font" style="font-size:20px;" v-if="isHome">——{{subTitle}}</div> -->
     <div class="tool">
       <el-tooltip class="item" effect="dark" content="全屏" v-if="!isFullScreen">
         <i class="iconfont icon-quanping" @click="fullScreen"></i>
@@ -26,7 +24,7 @@ export default {
   },
   computed: {
     isHome() {
-      return this.$route.path === "/monitor-detail";
+      return this.$route.name === "monitorDetail";
     }
   },
   mounted() {

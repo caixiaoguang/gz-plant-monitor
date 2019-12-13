@@ -74,7 +74,12 @@ export default {
   mounted() {},
   methods: {
     goDetail(e) {
-      this.$router.push({ path: "/monitor-detail", query: { id: e.BH } });
+      let address = e["监测地点"] || e["位置及地名"];
+      // this.$store.commit("setMonitorAddress", address);
+      this.$router.push({
+        name: "monitorDetail",
+        params: { id: e.BH, address: address }
+      });
     }
   }
 };
