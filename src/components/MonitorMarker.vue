@@ -27,7 +27,7 @@ export default {
     }
   },
   mounted() {
-    shp(`${this.base_url}入侵植物/入侵点测试`).then(geojson => {
+    shp(`${this.base_url}static/入侵植物/入侵点测试`).then(geojson => {
       this.geojsonData = geojson;
       this.dataReady = true;
     });

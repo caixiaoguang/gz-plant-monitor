@@ -1,31 +1,25 @@
-<template>
-
-</template>
-
 <script>
+import Leaflet from "leaflet";
 import { findRealParent } from "vue2-leaflet";
+const esri = require("esri-leaflet");
 export default {
-  propos: {
-    url: {
-      type: String
-    },
-    options: {
-      type: Object,
-      default: () => {}
-    }
+  data() {
+    return {
+      options: {
+        url:
+          "https://landsat.arcgis.com/arcgis/rest/services/Landsat/PS/ImageServer"
+      }
+    };
   },
   mounted() {
-    let layerOptions = {
-      layers: "nexrad‐n0r‐900913",
-      format: "image/png",
-    //   transparent: true
-    };
     this.layerType = "overlay";
-    this.name='航拍影像';
-    L.extend(layerOptions, this.options);
+    this.name = "航拍影像";
     let parentContainer = findRealParent(this.$parent);
-    this.mapObject = L.tileLayer.wms(this.url, layerOptions);
-    parentContainer.addLayer(this,true);
+    this.mapObject = esri.imageMapLayer(this.options);
+    parentContainer.addLayer(this, true);
+  },
+  render() {
+    return null;
   }
 };
 </script>

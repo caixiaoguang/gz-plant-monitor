@@ -35,7 +35,7 @@ import {
 } from "vue2-leaflet";
 import geojsonMixin from "../mixins/geojsonOptions";
 import Vue from "vue";
-import gzs from "../../public/gzs.json";
+import gzs from "../../public/static/gzs.json";
 export default {
   mixins: [geojsonMixin],
   components: {

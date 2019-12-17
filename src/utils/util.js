@@ -39,9 +39,16 @@ export function loadRemoteFile(url) {
         xhr.responseType = 'arraybuffer';
         xhr.onload = function (e) {
             if (xhr.status == 200) {
-                var data = new Uint8Array(xhr.response)
-                var workbook = XLSX.read(data, { type: 'array' });
-                resolve(readWorkbook(workbook))
+                try {
+                    var data = new Uint8Array(xhr.response);
+                    var workbook = XLSX.read(data, { type: 'array' });
+                    resolve(readWorkbook(workbook));
+                }
+                catch(err){
+                    console.log(err);
+                    
+                }
+               
             } else {
                 reject(new Error(e.statusText))
             }

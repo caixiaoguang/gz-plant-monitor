@@ -46,7 +46,7 @@ import MonitorPath from "../components/MonitorPath";
 import MonitorMarker from "../components/MonitorMarker";
 import Provinces from "../components/Provinces";
 import AntPath from "../components/AntPath";
-import gzs from "../../public/gzs.json";
+import gzs from "../../public/static/gzs.json";
 import shp from "shpjs";
 import { loadRemoteFile, xlsJoinShp } from "../utils/util";
 
@@ -77,18 +77,18 @@ export default {
   },
   methods: {
     async getShp() {
-      const orginShpData = await shp(`${this.base_url}监测点.zip`);
+      const orginShpData = await shp(`${this.base_url}static/监测点.zip`);
       this.orginShpData = this.combineFeature(orginShpData);
       this.categoryStatistics = await loadRemoteFile(
-        `${this.base_url}区县种类.xlsx`
+        `${this.base_url}static/区县种类.xlsx`
       );
       this.getXls();
     },
     async getXls() {
-      const res = await loadRemoteFile(`${this.base_url}监测点信息.xlsx`);
+      const res = await loadRemoteFile(`${this.base_url}static/监测点信息.xlsx`);
       this.combineValue2Name(res);
       this.fullscreenLoading = false;
-      this.initRank(await loadRemoteFile(`${this.base_url}入侵面积统计.xlsx`));
+      this.initRank(await loadRemoteFile(`${this.base_url}static/入侵面积统计.xlsx`));
     },
     combineFeature(geojsonList) {
       let data = {
@@ -161,12 +161,21 @@ export default {
 </script>
 
 <style lang="scss" >
+@import "../styles/variables.scss";
 .app-main {
   width: 100%;
   height: calc(100% - 50px);
   display: flex;
   .el-dialog__header {
     padding: 10px;
+    .el-dialog__title,span{
+      font-size: 14px;
+      font-weight: normal;
+      color:$primaryColor;
+    }
+    .el-dialog__headerbtn {
+      top: 15px;
+    }
   }
   .el-dialog__body {
     padding: 0px;

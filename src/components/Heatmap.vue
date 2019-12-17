@@ -14,10 +14,10 @@ export default {
     this.name = "热力图";
     this.visible = false;
     if (this.pointId) {
-      shp(`${this.base_url}热力图/${this.pointId}`).then(geojson => {
+      shp(`${this.base_url}static/热力图/${this.pointId}`).then(geojson => {
         this.formatHeatData(geojson);
         let parentContainer = findRealParent(this.$parent);
-        this.mapObject = L.heatLayer(this.heatData, { max: 1 });
+        this.mapObject = L.heatLayer(this.heatData, { max: 0.5 });
         parentContainer.addLayer(this,true);
       });
     }

@@ -75,10 +75,12 @@ export default {
   methods: {
     goDetail(e) {
       let address = e["监测地点"] || e["位置及地名"];
-      // this.$store.commit("setMonitorAddress", address);
+      let isOrigin = this.tableType === "原生境";
+
       this.$router.push({
         name: "monitorDetail",
-        params: { id: e.BH, address: address }
+        params: { id: e.BH, address: address },
+        query: { isOrigin: isOrigin }
       });
     }
   }

@@ -26,7 +26,7 @@ export default {
     this.parentContainer = findRealParent(this.$parent);
     const mapObject = L.featureGroup();
     propsBinder(this, this.mapObject, this.props);
-    const pathData = await shp(`${this.base_url}巡查路线.zip`);
+    const pathData = await shp(`${this.base_url}static/巡查路线.zip`);
     pathData.features.forEach(feature => {
       let latlngs = [];
       feature.geometry.coordinates.forEach(coord => {

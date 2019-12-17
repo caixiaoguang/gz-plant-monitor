@@ -1,6 +1,11 @@
 <template>
   <div class="app-main" v-loading.fullscreen.lock="fullscreenLoading">
-    <left :detail="detail" :exampleDetail="markerGeojson" :geojsonReady="geojsonReady" />
+    <left
+      :detail="detail"
+      :title="title"
+      :exampleDetail="markerGeojson"
+      :geojsonReady="geojsonReady"
+    />
 
     <main-map>
       <l-geo-json
@@ -14,21 +19,41 @@
         name="监测点"
       ></l-geo-json>
 
-      <!-- <l-wms-tile-layer /> -->
-      <wms-layer url="http://www.scgis.net.cn/imap/iMapServer/defaultRest/services/newtianditudom/WMS"></wms-layer>
+      <wms-layer></wms-layer>
 
       <heatmap :pointId="pointId" />
 
       <l-geo-json
-        v-if="geojsonReady"
+        v-if="markerGeojsonReady"
         :geojson="markerGeojson"
         :options="exampleFiledOptions"
         @ready="exampleGeojsonObjReady"
         layer-type="overlay"
         name="监测样地"
       ></l-geo-json>
+
+      <!-- 原生境植物 -->
+      <l-geo-json
+        :geojson="originPlant"
+        :options="originPlantOption"
+        v-if="Object.keys(originPlant).length>0&&isOrigin=='true'"
+        layer-type="overlay"
+        name="原生境植物"
+      ></l-geo-json>
     </main-map>
-    <right />
+    <right :title="title" />
+    <!-- 轮播图弹窗 -->
+    <el-dialog :visible.sync="imgBoxVisible" width="60%">
+      <template slot="title">
+        <span class="el-icon-s-flag"></span>
+        <span>{{exampleTitle}}</span>
+      </template>
+      <el-carousel>
+        <el-carousel-item v-for="item in examplePhotoList" :key="item">
+          <img :src="base_url + 'images/DSC_'+item+'.jpg'" />
+        </el-carousel-item>
+      </el-carousel>
+    </el-dialog>
   </div>
 </template>
 
@@ -44,6 +69,8 @@ import geojsonOptions from "../../mixins/geojsonOptions.js";
 import shp from "shpjs";
 import _cloneDeep from "lodash/cloneDeep";
 import bus from "../../utils/bus";
+import variables from "@/styles/variables.scss";
+
 const colorDic = {
   潜在: "green",
   轻度: "#55b0a0",
@@ -68,7 +95,14 @@ export default {
       pointId: this.$route.params.id,
       geojsonReady: false,
       detail: {},
-      markerGeojson: {}
+      markerGeojson: {},
+      title: "",
+      examplePhotoList: [],
+      imgBoxVisible: false,
+      exampleTitle: "",
+      markerGeojsonReady: false,
+      isOrigin: this.$route.query.isOrigin,
+      originPlant: {}
     };
   },
   computed: {
@@ -79,21 +113,21 @@ export default {
     },
     exampleFiledOptions() {
       return {
-        onEachFeature: (feature, layer) => {
-          layer.bindTooltip(feature.properties["组（小地名）"]);
-          layer.bindPopup(
-            this.getPopupContent(feature, ["样地大小", "生物量", "入侵程度"])
-          );
-        },
+        onEachFeature: this.exampleOnEachFeature,
         pointToLayer: this.pointToLayerFunc
+      };
+    },
+    originPlantOption() {
+      return {
+        pointToLayer: this.originPlantPoint2layer
       };
     }
   },
   created() {
-    shp(`${this.base_url}监测点.zip`)
+    shp(`${this.base_url}static/监测点.zip`)
       .then(geojson => {
         this.getPolygon(geojson);
-        loadRemoteFile(`${this.base_url}监测点详情.xlsx`)
+        loadRemoteFile(`${this.base_url}excel/监测点详情.xlsx`)
           .then(res => {
             this.getDetail(res);
             this.fullscreenLoading = false;
@@ -101,6 +135,18 @@ export default {
           .catch(() => (this.fullscreenLoading = false));
       })
       .catch(() => (this.fullscreenLoading = false));
+
+    shp(`${this.base_url}static/野生分布点/分布点发`).then(geojson => {
+      this.originPlant = geojson;
+    });
+
+    loadRemoteFile(`${this.base_url}excel/${this.pointId}.xlsx`)
+      .then(res => {
+        this.createMayker(res[0]);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
     getPolygon(geojson) {
@@ -112,6 +158,7 @@ export default {
       geojson.forEach(el => {
         font.push(el.features[0].properties.O_Name);
       });
+      this.title = this.OriginPolygon.features[0].properties.O_Name;
       //获取子标题
       bus.$emit(
         "getSubTitle",
@@ -128,9 +175,10 @@ export default {
       } else {
         this.polygon = this.OriginPolygon;
       }
-      this.markerGeojson = this.createMayker(
-        xlsdata[1].filter(el => el["归属监测点编号"] == this.pointId)
-      );
+
+      // this.markerGeojson = this.createMayker(
+      //   xlsdata[1].filter(el => el["归属监测点编号"] == this.pointId)
+      // );
 
       if (this.polygon) {
         this.geojsonReady = true;
@@ -182,15 +230,29 @@ export default {
           });
         }
       }
-      return geojson;
+      this.markerGeojson = geojson;
+      this.markerGeojsonReady = true;
     },
     pointToLayerFunc(feature, latlng) {
-      return L.circleMarker(latlng, {
-        radius: 8,
-        color: colorDic[feature.properties["入侵程度"]],
-        fillColor: colorDic[feature.properties["入侵程度"]],
-        fillOpacity: 1
-      });
+      if (this.isOrigin === "true") {
+        return L.marker(latlng, {
+          icon: L.icon({
+            iconUrl: require("@/assets/img/marker/leaf-green.png"),
+            shadowUrl: require("@/assets/img/marker/leaf-shadow.png"),
+            iconSize: [25, 45],
+            shadowSize: [25, 32],
+            shadowAnchor: [-2, 8]
+          })
+        });
+      } else {
+        return L.circleMarker(latlng, {
+          radius: 8,
+          color: colorDic[feature.properties["入侵程度"]],
+          fillColor: colorDic[feature.properties["入侵程度"]],
+          fillOpacity: 1
+        });
+      }
+
       // return L.marker(latlng, {
       //   icon: L.icon({
       //     iconUrl: require("@/assets/img/marker/leaf-green.png"),
@@ -201,16 +263,100 @@ export default {
       //   })
       // });
     },
+    originPlantPoint2layer(feature, latlng) {
+      return L.marker(latlng, {
+        icon: L.icon({
+          iconUrl: require("../../assets/img/marker/百合.png"),
+          iconSize: [25, 25]
+        })
+      });
+    },
     geojsonObjReadyCallback(e) {
       this.$map.fitBounds(e.getBounds());
     },
     exampleGeojsonObjReady(e) {
       this.exampleObj = e;
     },
-    loicationExample() {}
+    openPhotoDialog() {
+      this.imgBoxVisible = true;
+    },
+    exampleOnEachFeature(feature, layer) {
+      let properties = feature.properties;
+      layer.bindTooltip(properties["组（小地名）"]);
+      const photoList = this.getPhotoList(properties["照片编号"]);
+      let btn = "";
+      layer.bindPopup(this.getExamplePopupContent(feature, photoList[1]));
+      layer.on("popupopen", e => {
+        this.examplePhotoList = photoList;
+        this.exampleTitle =
+          properties["县（市、区）"] +
+          properties["乡"] +
+          properties["村"] +
+          properties["组（小地名）"];
+        setTimeout(() => {
+          btn = document.querySelector("#photo-btn");
+          btn.addEventListener("click", this.openPhotoDialog);
+        }, 200);
+      });
+      layer.on("popupclose", () => {
+        btn = null;
+      });
+    },
+    getExamplePopupContent(feature, firstPhotoNum) {
+      let content = "",
+        popupKey = ["样地大小", "生物量", "入侵程度"];
+
+      popupKey.forEach(key => {
+        content += `<span style="color:${
+          variables.primaryColor
+        }">${key}：</span>${feature.properties[key] || ""}<br>`;
+      });
+
+      content =
+        '<div style="line-height:20px;max-height:250px; overflow-y:auto;">' +
+        content +
+        `<img id='photo-btn' src =${this.base_url}images/DSC_${firstPhotoNum}.jpg style='width:150px;height:100px;cursor:pointer;border-radius:5px;overflow:hidden;margin-top:3px;' />`;
+      ("</div>");
+
+      return content;
+    },
+    getPhotoList(photoNum) {
+      let photoList = [];
+      let photoGroup = photoNum.split("DSC");
+
+      function splitNum(photoString) {
+        let startEndNum = photoString.split("-");
+        let startNum = Number(startEndNum[1]);
+        let endNum = Number(startEndNum[2]);
+        let temp = [];
+        for (let i = startNum; i <= endNum; i++) {
+          temp.push(i);
+        }
+        return temp;
+      }
+
+      photoGroup.forEach(el => {
+        if (el) {
+          photoList = photoList.concat(splitNum(el));
+        }
+      });
+      return photoList;
+    }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
+.el-dialog__wrapper {
+  .el-carousel {
+    height: 40vw;
+    .el-carousel__container {
+      height: 100% !important;
+    }
+  }
+  img {
+    width: 100%;
+    height: 40vw;
+  }
+}
 </style>

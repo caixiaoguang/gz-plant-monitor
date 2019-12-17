@@ -2,8 +2,8 @@
   <div class="nav">
     <div class="web-font title" @click="goHome">
       <i class="home iconfont icon-zhuye"></i>
-      <!-- <span v-if="!isHome">贵州省农业外来入侵植物监测台</span> -->
-      <!-- <span v-else>{{subTitle}}</span> -->
+      <span v-if="!isHome">贵州省农业外来入侵植物监测台</span>
+      <span v-else>{{subTitle}}</span>
     </div>
     <div class="tool">
       <el-tooltip class="item" effect="dark" content="全屏" v-if="!isFullScreen">
