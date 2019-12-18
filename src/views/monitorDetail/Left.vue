@@ -81,12 +81,7 @@
     <el-dialog :visible.sync="detailVisible">
       <el-button size="mini" @click="printContent('monitor-datail')">打印</el-button>
       <div id="monitor-datail">
-        <!-- <monitor-detail :detail="detail" /> -->
-        <iframe
-          :src="this.base_url+'printTemplate/monitorDetail.html?detail='+JSON.stringify(detail)"
-          style="width:100%;height:800px"
-          frameborder="0"
-        ></iframe>
+        <monitor-detail :detail="detail" />
       </div>
     </el-dialog>
 

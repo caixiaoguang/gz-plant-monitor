@@ -36,7 +36,7 @@
       <l-geo-json
         :geojson="originPlant"
         :options="originPlantOption"
-        v-if="Object.keys(originPlant).length>0&&isOrigin=='true'"
+        v-if="Object.keys(originPlant).length>0&&isOrigin"
         layer-type="overlay"
         name="原生境植物"
       ></l-geo-json>

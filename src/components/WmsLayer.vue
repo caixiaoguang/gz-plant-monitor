@@ -2,12 +2,12 @@
 import Leaflet from "leaflet";
 import { findRealParent } from "vue2-leaflet";
 const esri = require("esri-leaflet");
+import config from "../../public/config.json";
 export default {
   data() {
     return {
       options: {
-        url:
-          "https://landsat.arcgis.com/arcgis/rest/services/Landsat/PS/ImageServer"
+        url: config.imageUrl
       }
     };
   },

@@ -1,14 +1,8 @@
 <template>
   <div>
-    <p
-      style="margin-top:0pt; margin-bottom:10pt; line-height:150%; widows:0; orphans:0; font-size:14pt"
-    >
-      <a name="_Toc7082207">
-        <span style="font-family:'黑体'">附件</span>
-        <span style="font-family:'Times New Roman'">2</span>
-        <span style="font-family:'黑体'">：</span>
-      </a>
-    </p>
+    <a name="_Toc7082207">
+      <span style="font-family:'黑体'">附件2</span>
+    </a>
     <p
       style="margin-top:0pt; margin-bottom:10pt; text-align:center; line-height:150%; widows:0; orphans:0; font-size:14pt"
     >
@@ -544,7 +538,6 @@
               style="margin-top:10pt; margin-left:20pt; margin-bottom:10pt; text-align:justify; line-height:115%; font-size:11pt"
             >
               <span style="font-family:'宋体'; font-size:10.5pt">{{detail['调查日期']}}</span>
-             
             </p>
           </td>
           <td
@@ -590,11 +583,7 @@
         </tr>
       </table>
     </div>
-    <p
-      style="margin-top:0pt; margin-bottom:10pt; text-align:justify; line-height:115%; widows:0; orphans:0; font-size:10.5pt"
-    >
-      <span style="font-family:Calibri">&#xa0;</span>
-    </p>
+    <p style="margin-top:0pt; margin-bottom:50pt; text-align:justify; line-height:115%;"></p>
   </div>
 </template>
 
