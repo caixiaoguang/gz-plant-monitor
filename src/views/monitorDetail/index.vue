@@ -5,6 +5,7 @@
       :title="title"
       :exampleDetail="markerGeojson"
       :geojsonReady="geojsonReady"
+      :imgList="leftImgList"
     />
 
     <main-map>
@@ -23,6 +24,8 @@
 
       <heatmap :pointId="pointId" />
 
+      <terra-category :pointId="pointId"></terra-category>
+
       <l-geo-json
         v-if="markerGeojsonReady"
         :geojson="markerGeojson"
@@ -36,12 +39,12 @@
       <l-geo-json
         :geojson="originPlant"
         :options="originPlantOption"
-        v-if="Object.keys(originPlant).length>0&&isOrigin"
+        v-if="Object.keys(originPlant).length>0&&isOrigin==1"
         layer-type="overlay"
         name="原生境植物"
       ></l-geo-json>
     </main-map>
-    <right :title="title" />
+    <right :title="title" :detail="detail" />
     <!-- 轮播图弹窗 -->
     <el-dialog :visible.sync="imgBoxVisible" width="60%">
       <template slot="title">
@@ -50,7 +53,8 @@
       </template>
       <el-carousel>
         <el-carousel-item v-for="item in examplePhotoList" :key="item">
-          <img :src="base_url + 'images/DSC_'+item+'.jpg'" />
+          <img :src="base_url + 'images/'+pointId+'/'+item+'.jpg'" />
+          <span class="img-label">DSC_{{item}}</span>
         </el-carousel-item>
       </el-carousel>
     </el-dialog>
@@ -63,8 +67,14 @@ import Right from "./Right";
 import MainMap from "../MainMap";
 import Heatmap from "../../components/Heatmap";
 import WmsLayer from "../../components/WmsLayer";
-import { LGeoJson, LWMSTileLayer } from "vue2-leaflet";
-import { loadRemoteFile, xlsJoinShp, degree2decimal } from "../../utils/util";
+import TerraCategory from "../../components/TerraCategory";
+import { LGeoJson } from "vue2-leaflet";
+import {
+  loadRemoteFile,
+  xlsJoinShp,
+  degree2decimal,
+  getPhotoList
+} from "../../utils/util";
 import geojsonOptions from "../../mixins/geojsonOptions.js";
 import shp from "shpjs";
 import _cloneDeep from "lodash/cloneDeep";
@@ -77,6 +87,19 @@ const colorDic = {
   一般: "orange",
   严重: "red"
 };
+
+const markerPngDic = {
+  1: "八角莲",
+  2: "百合",
+  3: "唇兰",
+  4: "韭菜",
+  5: "荔波桑",
+  6: "猕猴桃",
+  7: "四球茶",
+  8: "蒜",
+  9: "苎麻"
+};
+
 export default {
   name: "monitorDetail",
   mixins: [geojsonOptions],
@@ -85,14 +108,14 @@ export default {
     Right,
     MainMap,
     LGeoJson,
-    LWMSTileLayer,
     Heatmap,
-    WmsLayer
+    WmsLayer,
+    TerraCategory
   },
   data() {
     return {
       fullscreenLoading: true,
-      pointId: this.$route.params.id,
+      pointId: this.$route.query.id,
       geojsonReady: false,
       detail: {},
       markerGeojson: {},
@@ -102,7 +125,8 @@ export default {
       exampleTitle: "",
       markerGeojsonReady: false,
       isOrigin: this.$route.query.isOrigin,
-      originPlant: {}
+      originPlant: {},
+      leftImgList: []
     };
   },
   computed: {
@@ -140,9 +164,10 @@ export default {
       this.originPlant = geojson;
     });
 
+    //样地文件
     loadRemoteFile(`${this.base_url}excel/${this.pointId}.xlsx`)
       .then(res => {
-        this.createMayker(res[0]);
+        this.createMarker(res[0]);
       })
       .catch(err => {
         console.log(err);
@@ -176,15 +201,11 @@ export default {
         this.polygon = this.OriginPolygon;
       }
 
-      // this.markerGeojson = this.createMayker(
-      //   xlsdata[1].filter(el => el["归属监测点编号"] == this.pointId)
-      // );
-
       if (this.polygon) {
         this.geojsonReady = true;
       }
     },
-    createMayker(data) {
+    createMarker(data) {
       let geojson = { type: "FeatureCollection", features: [] };
       let exampleFiled2Obj = {};
       let exampleFiledTableKeys = [
@@ -234,7 +255,7 @@ export default {
       this.markerGeojsonReady = true;
     },
     pointToLayerFunc(feature, latlng) {
-      if (this.isOrigin === "true") {
+      if (this.isOrigin == 1) {
         return L.marker(latlng, {
           icon: L.icon({
             iconUrl: require("@/assets/img/marker/leaf-green.png"),
@@ -252,24 +273,15 @@ export default {
           fillOpacity: 1
         });
       }
-
-      // return L.marker(latlng, {
-      //   icon: L.icon({
-      //     iconUrl: require("@/assets/img/marker/leaf-green.png"),
-      //     shadowUrl: require("@/assets/img/marker/leaf-shadow.png"),
-      //     iconSize: [25, 45],
-      //     shadowSize: [25, 32],
-      //     shadowAnchor: [-2, 8]
-      //   })
-      // });
     },
     originPlantPoint2layer(feature, latlng) {
+      let markerPng = markerPngDic[feature.properties.O_Name];
       return L.marker(latlng, {
         icon: L.icon({
-          iconUrl: require("../../assets/img/marker/百合.png"),
+          iconUrl: require("../../assets/img/marker/" + markerPng + ".png"),
           iconSize: [25, 25]
         })
-      });
+      }).bindTooltip(markerPng);
     },
     geojsonObjReadyCallback(e) {
       this.$map.fitBounds(e.getBounds());
@@ -282,9 +294,11 @@ export default {
     },
     exampleOnEachFeature(feature, layer) {
       let properties = feature.properties;
-      layer.bindTooltip(properties["组（小地名）"]);
-      const photoList = this.getPhotoList(properties["照片编号"]);
+      const photoList = getPhotoList(properties["照片编号"]);
+      const firstImg = photoList[0];
       let btn = "";
+      this.leftImgList.push(firstImg);
+      layer.bindTooltip(properties["组（小地名）"]);
       layer.bindPopup(this.getExamplePopupContent(feature, photoList[1]));
       layer.on("popupopen", e => {
         this.examplePhotoList = photoList;
@@ -315,32 +329,10 @@ export default {
       content =
         '<div style="line-height:20px;max-height:250px; overflow-y:auto;">' +
         content +
-        `<img id='photo-btn' src =${this.base_url}images/DSC_${firstPhotoNum}.jpg style='width:150px;height:100px;cursor:pointer;border-radius:5px;overflow:hidden;margin-top:3px;' />`;
+        `<img id='photo-btn' src =${this.base_url}images/${this.pointId}/${firstPhotoNum}.jpg style='width:150px;height:100px;cursor:pointer;border-radius:5px;overflow:hidden;margin-top:3px;' />`;
       ("</div>");
 
       return content;
-    },
-    getPhotoList(photoNum) {
-      let photoList = [];
-      let photoGroup = photoNum.split("DSC");
-
-      function splitNum(photoString) {
-        let startEndNum = photoString.split("-");
-        let startNum = Number(startEndNum[1]);
-        let endNum = Number(startEndNum[2]);
-        let temp = [];
-        for (let i = startNum; i <= endNum; i++) {
-          temp.push(i);
-        }
-        return temp;
-      }
-
-      photoGroup.forEach(el => {
-        if (el) {
-          photoList = photoList.concat(splitNum(el));
-        }
-      });
-      return photoList;
     }
   }
 };
@@ -357,6 +349,12 @@ export default {
   img {
     width: 100%;
     height: 40vw;
+  }
+  .img-label {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: #fff;
   }
 }
 </style>

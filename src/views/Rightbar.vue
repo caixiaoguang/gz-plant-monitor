@@ -34,7 +34,7 @@
     </div>
 
     <div class="card" style="max-height:340px">
-      <div class="title">各区县入侵数量</div>
+      <div class="title">各市（州）入侵数量</div>
       <ve-histogram :data="categoryData" height="360px"></ve-histogram>
     </div>
   </div>
@@ -75,12 +75,11 @@ export default {
   methods: {
     goDetail(e) {
       let address = e["监测地点"] || e["位置及地名"];
-      let isOrigin = this.tableType === "原生境";
+      let isOrigin = this.tableType === "原生境" ? 1 : 0;
 
       this.$router.push({
         name: "monitorDetail",
-        params: { id: e.BH, address: address },
-        query: { isOrigin: isOrigin }
+        query: { id: e.BH, address: address, isOrigin: isOrigin }
       });
     }
   }

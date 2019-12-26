@@ -1,127 +1,695 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <link rel="stylesheet" href="./layui/css/layui.css">
-    <style>
-        .container {
-            width: 530px;
-            margin: auto;
+    <style type="text/css">
+        ol {
+            margin: 0;
+            padding: 0
         }
 
-        .layui-table tr {
-            background-color: #fff !important;
+        table td,
+        table th {
+            padding: 0
         }
 
-        .layui-table {
-            color: #000;
+        .c10 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #000000;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 140.2pt;
+            border-top-color: #ffffff;
+            border-bottom-style: solid
+        }
+
+        .c2 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #000000;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 73.5pt;
+            border-top-color: #ffffff;
+            border-bottom-style: solid
+        }
+
+        .c16 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #000000;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 57.8pt;
+            border-top-color: #000000;
+            border-bottom-style: solid
+        }
+
+        .c24 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #ffffff;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 79.5pt;
+            border-top-color: #000000;
+            border-bottom-style: solid
+        }
+
+        .c8 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #000000;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 57.8pt;
+            border-top-color: #ffffff;
+            border-bottom-style: solid
+        }
+
+        .c0 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #000000;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 73.5pt;
+            border-top-color: #000000;
+            border-bottom-style: solid
+        }
+
+        .c19 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #000000;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 194.2pt;
+            border-top-color: #ffffff;
+            border-bottom-style: solid
+        }
+
+        .c26 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #ffffff;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 114.8pt;
+            border-top-color: #000000;
+            border-bottom-style: solid
+        }
+
+        .c14 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #000000;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 82.5pt;
+            border-top-color: #000000;
+            border-bottom-style: solid
+        }
+
+        .c9 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #ffffff;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 70.5pt;
+            border-top-color: #ffffff;
+            border-bottom-style: solid
+        }
+
+        .c30 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #000000;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 79.5pt;
+            border-top-color: #000000;
+            border-bottom-style: solid
+        }
+
+        .c27 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #ffffff;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 408pt;
+            border-top-color: #000000;
+            border-bottom-style: solid
+        }
+
+        .c29 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #000000;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 408pt;
+            border-top-color: #000000;
+            border-bottom-style: solid
+        }
+
+        .c17 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #ffffff;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 73.5pt;
+            border-top-color: #ffffff;
+            border-bottom-style: solid
+        }
+
+        .c13 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #000000;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 140.2pt;
+            border-top-color: #000000;
+            border-bottom-style: solid
+        }
+
+        .c28 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #ffffff;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 73.5pt;
+            border-top-color: #000000;
+            border-bottom-style: solid
+        }
+
+        .c15 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #000000;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 114.8pt;
+            border-top-color: #000000;
+            border-bottom-style: solid
+        }
+
+        .c7 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #ffffff;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 57.8pt;
+            border-top-color: #000000;
+            border-bottom-style: solid
+        }
+
+        .c22 {
+            border-right-style: solid;
+            padding: 0.9pt 0.9pt 0.9pt 0.9pt;
+            border-bottom-color: #000000;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #ffffff;
+            vertical-align: bottom;
+            border-right-color: #ffffff;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 114.8pt;
+            border-top-color: #ffffff;
+            border-bottom-style: solid
+        }
+
+        .c31 {
+            color: #000000;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 18pt;
+            font-family: "STsong";
+            font-style: normal
+        }
+
+        .c5 {
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.15;
+            orphans: 2;
+            widows: 2;
+            text-align: left;
+            height: 11pt
+        }
+
+        .c3 {
+            color: #000000;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 12pt;
+            font-family: "STsong";
+            font-style: normal
+        }
+
+        .c12 {
+            color: #000000;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 11pt;
+            font-family: "STsong";
+            font-style: normal
+        }
+
+        .c32 {
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.5;
+            orphans: 2;
+            widows: 2;
+            text-align: center
+        }
+
+        .c20 {
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.15;
+            orphans: 2;
+            widows: 2;
+            text-align: left
+        }
+
+        .c1 {
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.0;
+            text-align: left
+        }
+
+        .c4 {
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.0;
+            text-align: center
+        }
+
+        .c23 {
+            margin-left: auto;
+            border-spacing: 0;
+            border-collapse: collapse;
+            margin-right: auto
+        }
+
+        .c21 {
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.0;
+            text-align: right
+        }
+
+        .c11 {
+            font-size: 18pt;
+            font-family: "STsong";
+            font-weight: 700
+        }
+
+        .c25 {
+            background-color: #ffffff;
+            max-width: 481.9pt;
+            padding: 56.7pt 56.7pt 56.7pt 56.7pt
+        }
+
+        .c18 {
+            height: 34.9pt
+        }
+
+        .c6 {
+            height: 11pt
+        }
+
+        .title {
+            padding-top: 0pt;
+            color: #000000;
+            font-size: 26pt;
+            padding-bottom: 3pt;
+            font-family: "Arial";
+            line-height: 1.15;
+            page-break-after: avoid;
+            orphans: 2;
+            widows: 2;
+            text-align: left
+        }
+
+        .subtitle {
+            padding-top: 0pt;
+            color: #666666;
+            font-size: 15pt;
+            padding-bottom: 16pt;
+            font-family: "Arial";
+            line-height: 1.15;
+            page-break-after: avoid;
+            orphans: 2;
+            widows: 2;
+            text-align: left
+        }
+
+        li {
+            color: #000000;
+            font-size: 11pt;
+            font-family: "Arial"
         }
 
         p {
-            text-align: start;
-            text-indent: 0;
+            margin: 0;
+            color: #000000;
+            font-size: 11pt;
+            font-family: "Arial"
+        }
+
+        h1 {
+            padding-top: 20pt;
+            color: #000000;
+            font-size: 20pt;
+            padding-bottom: 6pt;
+            font-family: "Arial";
+            line-height: 1.15;
+            page-break-after: avoid;
+            orphans: 2;
+            widows: 2;
+            text-align: left
+        }
+
+        h2 {
+            padding-top: 18pt;
+            color: #000000;
+            font-size: 16pt;
+            padding-bottom: 6pt;
+            font-family: "Arial";
+            line-height: 1.15;
+            page-break-after: avoid;
+            orphans: 2;
+            widows: 2;
+            text-align: left
+        }
+
+        h3 {
+            padding-top: 16pt;
+            color: #434343;
+            font-size: 14pt;
+            padding-bottom: 4pt;
+            font-family: "Arial";
+            line-height: 1.15;
+            page-break-after: avoid;
+            orphans: 2;
+            widows: 2;
+            text-align: left
+        }
+
+        h4 {
+            padding-top: 14pt;
+            color: #666666;
+            font-size: 12pt;
+            padding-bottom: 4pt;
+            font-family: "Arial";
+            line-height: 1.15;
+            page-break-after: avoid;
+            orphans: 2;
+            widows: 2;
+            text-align: left
+        }
+
+        h5 {
+            padding-top: 12pt;
+            color: #666666;
+            font-size: 11pt;
+            padding-bottom: 4pt;
+            font-family: "Arial";
+            line-height: 1.15;
+            page-break-after: avoid;
+            orphans: 2;
+            widows: 2;
+            text-align: left
+        }
+
+        h6 {
+            padding-top: 12pt;
+            color: #666666;
+            font-size: 11pt;
+            padding-bottom: 4pt;
+            font-family: "Arial";
+            line-height: 1.15;
+            page-break-after: avoid;
+            font-style: italic;
+            orphans: 2;
+            widows: 2;
+            text-align: left
         }
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <button id="print" style="margin-left: -50px;">打印</button>
-        <br />
-        <p style="text-align: left;">
-            附件3
-        </p>
-        <p>
-            <br />
-        </p>
-        <h2 style="text-align: center; text-indent: 0em; line-height: 2em;">
-            <span style="font-family: 宋体, SimSun;">外来入侵植物监测样地调查记录表</span>
-        </h2>
-        <p style="text-align: center; line-height: 3em;">
-            <span style="font-family: 宋体, SimSun; text-indent: 0em;">表格编号：&nbsp;</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;">&nbsp; &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp;<span class="表格编号"></span>&nbsp; &nbsp; &nbsp; &nbsp;</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em;">；&nbsp; &nbsp;样方序号：</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;">&nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp;<span class="样方编号"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-        </p>
-        <p style="text-align: center; text-indent: 0em; line-height: 3em;">
-            <span style="font-family: 宋体, SimSun; text-indent: 6em;">贵州省&nbsp;</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;"> <span
-                    class="市"></span>
-            </span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family: 宋体, SimSun; text-indent: 2em;"></span><span
-                style="font-family: 宋体, SimSun; text-indent: 1em; text-decoration-line: underline;">&nbsp; <span
-                    class="县（市、区）"></span>&nbsp;
-            </span><span style="font-family: 宋体, SimSun; text-indent: 2em;">县（市、区）</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;">&nbsp; <span
-                    class="乡"></span>
-            </span><span style="font-family: 宋体, SimSun; text-indent: 2em;">&nbsp;</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;"> &nbsp;<span
-                    class="村"></span>&nbsp;
-            </span><span style="font-family: 宋体, SimSun; text-indent: 2em;">&nbsp;&nbsp; </span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;"><span
-                    class="组（小地名）"></span>&nbsp;</span><span style="font-family: 宋体, SimSun; text-indent: 2em;">
-                组（小地名）</span>
-        </p>
-        <p style="text-align: center; text-indent: 0em; line-height: 3em;">
-            <span style="font-family: 宋体, SimSun; text-indent: 2em;">经度：</span><span
-                style="font-family: 宋体, SimSun; text-indent: 0em; text-decoration-line: underline;">&nbsp; &nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp; <span class="经度"></span>&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em;">；纬度：</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;">&nbsp; &nbsp;
-                &nbsp;<span class="纬度"></span>&nbsp; &nbsp;</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em;">
-                ；海拔：</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;">&nbsp; &nbsp;
-                <span class="海拔（m）"></span>&nbsp; </span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em;">&nbsp;m</span>
-        </p>
-        <p style="text-align: center; text-indent: 0em; line-height: 3em;">
-            <span style="font-family: 宋体, SimSun; text-indent: 2em;">调查日期：</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;">
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="调查日期"></span>&nbsp; &nbsp; &nbsp;
-                &nbsp;</span><span style="font-family: 宋体, SimSun; text-indent: 2em;">；调查人：</span><span
-                style="font-family: 宋体, SimSun; text-indent: 1em; text-decoration-line: underline;">
-                <span class="调查人">
-        </p>
-        <p style="text-align: center; text-indent: 0em; line-height: 3em;">
-            <span style="font-family: 宋体, SimSun; text-indent: 2em;">工作单位：</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;">&nbsp; &nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp; &nbsp; &nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em;">&nbsp;</span>
-        </p>
-        <p style="text-align: center; text-indent: 0em; line-height: 3em;">
-            <span style="font-family: 宋体, SimSun; text-indent: 2em;">&nbsp;职&nbsp;
-                &nbsp;称：□助理研究员/工程师；□副研究员/高级工程师；□研究院/正高级工程师</span>
-        </p>
-        <p style="text-align: center; text-indent: 0em; line-height: 3em;">
-            <span style="font-family: 宋体, SimSun; text-indent: 2em;">联系电话：</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;">&nbsp; &nbsp; &nbsp;
-                12345678900&nbsp; &nbsp; &nbsp; &nbsp; </span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em;">；电子邮件：</span><span
-                style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;">&nbsp; &nbsp; &nbsp;
-                &nbsp; example@qq.com&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span>
-        </p>
-        <p style="text-indent: 0em; line-height: 2em;">
-            <span style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;"></span>
-        </p>
-        <table align="center" class="layui-table">
+<body class="c25">
+    <button id="print">打印</button>
+    <br />
+    <p class="c20"><span class="c12">&#38468;&#20214;3:</span></p>
+    <p class="c32"><span
+            class="c11">&#22806;&#26469;&#20837;&#20405;&#26893;&#29289;&#30417;&#27979;&#26679;&#22320;&#35843;&#26597;&#35760;&#24405;&#34920;</span>
+    </p><a id="t.d60c7c8e91b7883524cdae8bcad9addee3497ada"></a><a id="t.0"></a>
+    <table class="c23">
+        <tbody>
+            <tr class="c18">
+                <td class="c9" colspan="1" rowspan="1">
+                    <p class="c1"><span class="c3">&#34920;&#26684;&#32534;&#21495;:</span></p>
+                </td>
+                <td class="c10" colspan="2" rowspan="1">
+                    <p class="c4"><span class="c3 表格编号">&nbsp;xxxxxxxxxxxxx</span></p>
+                </td>
+                <td class="c17" colspan="1" rowspan="1">
+                    <p class="c1"><span class="c3">&#26679;&#26041;&#24207;&#21495;:</span></p>
+                </td>
+                <td class="c19" colspan="2" rowspan="1">
+                    <p class="c4"><span class="c3 样方编号">&#21344;&#21344;&#21344;&#21344;&#21344;&#21344;</span></p>
+                </td>
+            </tr>
+            <tr class="c18">
+                <td class="c9" colspan="1" rowspan="1">
+                    <p class="c1"><span class="c3">&#36149;&#24030;&#30465;</span></p>
+                </td>
+                <td class="c29" colspan="5" rowspan="1">
+                    <p class="c1"><span class="c3 市"></span> &nbsp;&nbsp;<span class="c3 县（市、区）"></span><span
+                            class="c3">（市、区）</span> <span class="c3 乡"></span> <span class="c3 村"></span> <span
+                            class="c3 组（小地名）"></span><span class="c3">组（小地名）</span></p>
+                </td>
+            </tr>
+            <tr class="c18">
+                <td class="c9" colspan="1" rowspan="1">
+                    <p class="c1"><span class="c3">&#32463;&#24230;&#65306;</span></p>
+                </td>
+                <td class="c14" colspan="1" rowspan="1">
+                    <p class="c4"><span class="c3 经度">xxxxxxxxx</span></p>
+                </td>
+                <td class="c7" colspan="1" rowspan="1">
+                    <p class="c21"><span class="c3">&#32428;&#24230;&#65306;</span></p>
+                </td>
+                <td class="c0" colspan="1" rowspan="1">
+                    <p class="c4"><span class="c3 纬度">xxxxxxxxx</span></p>
+                </td>
+                <td class="c24" colspan="1" rowspan="1">
+                    <p class="c21"><span class="c3">&#28023;&#25300;&#65306;</span></p>
+                </td>
+                <td class="c15" colspan="1" rowspan="1">
+                    <p class="c4"><span class="c3 海拔（m）">xxxx</span> <span class="c3">m</span></p>
+                </td>
+            </tr>
+            <tr class="c18">
+                <td class="c9" colspan="1" rowspan="1">
+                    <p class="c1"><span class="c3">&#35843;&#26597;&#26085;&#26399;:</span></p>
+                </td>
+                <td class="c13" colspan="2" rowspan="1">
+                    <p class="c4"><span class="c3 调查日期">xxxxxxxxxx</span></p>
+                </td>
+                <td class="c28" colspan="1" rowspan="1">
+                    <p class="c21"><span class="c3">&#35843;&#26597;&#20154;:</span></p>
+                </td>
+                <td class="c19" colspan="2" rowspan="1">
+                    <p class="c4"><span class="c3 调查人" style="font-size: 12px;">xxxxxx</span></p>
+                </td>
+            </tr>
+            <tr class="c18">
+                <td class="c9" colspan="1" rowspan="1">
+                    <p class="c1"><span class="c3">&#24037;&#20316;&#21333;&#20301;:</span></p>
+                </td>
+                <td class="c29" colspan="5" rowspan="1">
+                    <p class="c1 c6"><span class="c3"></span></p>
+                </td>
+            </tr>
+            <tr class="c18">
+                <td class="c9" colspan="1" rowspan="1">
+                    <p class="c1"><span class="c3">&#32844;&#31216;&#65306;</span></p>
+                </td>
+                <td class="c27" colspan="5" rowspan="1">
+                    <p class="c1"><span class="c3"
+                            style="font-size: 14px;">&#9633;&#21161;&#29702;&#30740;&#31350;&#21592;/&#24037;&#31243;&#24072;&#65307;&#9633;&#21103;&#30740;&#31350;&#21592;/&#39640;&#32423;&#24037;&#31243;&#24072;&#65307;&#9633;&#30740;&#31350;&#38498;/&#27491;&#39640;&#32423;&#24037;&#31243;&#24072;</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c18">
+                <td class="c9" colspan="1" rowspan="1">
+                    <p class="c1"><span class="c3">&#32852;&#31995;&#30005;&#35805;:</span></p>
+                </td>
+                <td class="c10" colspan="2" rowspan="1">
+                    <p class="c4"><span class="c3 电话"></span></p>
+                </td>
+                <td class="c17" colspan="1" rowspan="1">
+                    <p class="c1"><span class="c3">&#30005;&#23376;&#37038;&#20214;:</span></p>
+                </td>
+                <td class="c19" colspan="2" rowspan="1">
+                    <p class="c4"><span class="c3 邮件"></span></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-        </table>
-        <p style="text-indent: 0em; line-height: 2em;">
-            <span style="font-family: 宋体, SimSun; text-indent: 2em; text-decoration-line: underline;"></span><br />
-        </p>
-    </div>
+    <br />
+    <table align="center" class="layui-table">
 
+    </table>
 </body>
+
 <script src="./layui/layui.all.js"></script>
 <script>
 
@@ -129,6 +697,7 @@
 
     function onStorageChange() {
         let tableNum = getQueryVariable('tableNum');
+        tableNum = decodeURI(decodeURI(tableNum));
 
         let allDetail = localStorage.getItem('detail');
         allDetail = JSON.parse(allDetail);
@@ -186,8 +755,6 @@
         }
         return (false);
     }
-
-
 
 
 

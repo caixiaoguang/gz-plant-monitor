@@ -2,21 +2,40 @@
 import Leaflet from "leaflet";
 import { findRealParent } from "vue2-leaflet";
 const esri = require("esri-leaflet");
-import config from "../../public/config.json";
+import axios from "axios";
 export default {
   data() {
-    return {
-      options: {
-        url: config.imageUrl
-      }
-    };
+    return {};
   },
   mounted() {
     this.layerType = "overlay";
     this.name = "航拍影像";
     let parentContainer = findRealParent(this.$parent);
-    this.mapObject = esri.imageMapLayer(this.options);
-    parentContainer.addLayer(this, true);
+    axios.get(`${this.base_url}config.json`).then(res => {
+      this.options = res.data;
+      this.createMapobj(this.options.use);
+      parentContainer.addLayer(this, true);
+    });
+  },
+  methods: {
+    createMapobj(type) {
+      if (type == "imageserver") {
+        this.mapObject = esri.imageMapLayer(this.options.imageserver);
+      }
+
+      if (type == "mapserver") {
+        console.log(this.options.mapserver);
+
+        this.mapObject = esri.dynamicMapLayer(this.options.mapserver);
+      }
+
+      if (type == "wms") {
+        this.mapObject = L.tileLayer.wms(
+          this.options.wms.url,
+          this.options.wms.options
+        );
+      }
+    }
   },
   render() {
     return null;

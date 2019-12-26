@@ -1,6 +1,6 @@
 <template>
   <div class="map-container">
-    <l-map :zoom="zoom" :maxZoom="18" :center="center" :options="options" @ready="mapReady">
+    <l-map :zoom="zoom" :maxZoom="32" :center="center" :options="options" @ready="mapReady">
       <slot />
       <l-control-layers :collapsed="false" :sortLayers="true" @ready="layerControlReady"></l-control-layers>
       <l-feature-group layer-type="base" name="天地图">

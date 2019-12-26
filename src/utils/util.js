@@ -44,11 +44,11 @@ export function loadRemoteFile(url) {
                     var workbook = XLSX.read(data, { type: 'array' });
                     resolve(readWorkbook(workbook));
                 }
-                catch(err){
+                catch (err) {
                     console.log(err);
-                    
+
                 }
-               
+
             } else {
                 reject(new Error(e.statusText))
             }
@@ -87,4 +87,125 @@ export function degree2decimal(degreeString) {
     let degreeMinute = degreeString.split('°')[1].split('′')[0];
     let degreeSecond = degreeString.split('′')[1].split('″')[0];
     return (Number(degreeSecond) / 60 + Number(degreeMinute)) / 60 + Number(degreeMain)
+}
+
+
+export function getPhotoList(photoNum) {
+    let photoList = [];
+    photoNum = photoNum.replace(/\s*/g, "");
+    if (photoNum.indexOf('DSC-') != -1) {
+        let photoGroup = photoNum.split("DSC");
+
+        function splitNum(photoString) {
+            let startEndNum = photoString.split("-");
+
+            if (startEndNum.length == 2) {
+                return [startEndNum[1]]
+            }
+
+            let startNum = Number(startEndNum[1]);
+            let endNum = Number(startEndNum[2]);
+            let temp = [];
+
+            if (startNum < endNum) {
+                for (let i = startNum; i <= endNum; i++) {
+                    temp.push(i);
+                }
+            }
+
+            return temp;
+        }
+
+        photoGroup.forEach(el => {
+            if (el) {
+                photoList = photoList.concat(splitNum(el));
+            }
+        });
+        return photoList.map(el => ('DSC_' + el));
+    }
+
+    if (photoNum.indexOf('DSCN') != -1) {
+        let photoGroup = photoNum.split("DSCN");
+        if (photoGroup.length == 2) {
+            return [photoGroup[1]]
+        }
+
+        photoGroup = photoGroup.map(el => {
+            return el.replace('-', '')
+        });
+
+        for (let i = 1; i < photoGroup.length; i += 2) {
+            let temp = [];
+            let startNum = Number(photoGroup[i]);
+            let endNum = Number(photoGroup[i + 1]);
+
+            if (startNum < endNum) {
+                for (let j = startNum; j <= endNum; j++) {
+                    temp.push(j);
+                }
+            }
+            photoList = photoList.concat(temp);
+        }
+
+        return photoList.map(el => ('DSCN' + el))
+    }
+
+    if (photoNum.indexOf('DSC') != -1 && photoNum.indexOf('DSCN') == -1 && photoNum.indexOf('DSC-') == -1) {
+        let photoGroup = photoNum.split("DSC");
+
+        function splitNum(photoString) {
+            let startEndNum = photoString.split("-");
+
+            if (startEndNum.length == 1) {
+                return [startEndNum[0]]
+            }
+
+            let startNum = Number(startEndNum[0]);
+            let endNum = Number(startEndNum[1]);
+            let temp = [];
+
+            if (startNum < endNum) {
+                for (let i = startNum; i <= endNum; i++) {
+                    temp.push(i);
+                }
+            }
+
+            return temp;
+        }
+
+        photoGroup.forEach(el => {
+            if (el) {
+                photoList = photoList.concat(splitNum(el));
+            }
+        });
+
+        return photoList.map(el => ('DSC' + el))
+    }
+
+    if (photoNum.indexOf('IMG') != -1) {
+        let photoGroup = photoNum.split("IMG_");
+
+        if (photoGroup.length == 2) {
+            return [('IMG_' + photoGroup[1])]
+        }
+
+        photoGroup = photoGroup.map(el => {
+            return el.replace('-', '')
+        });
+
+        for (let i = 1; i < photoGroup.length; i += 2) {
+            let temp = [];
+            let dataLabel = photoGroup[i].split('_')[0];
+            let startNum = Number(photoGroup[i].split('_')[1]);
+            let endNum = Number(photoGroup[i + 1].split('_')[1]);
+
+            if (startNum < endNum) {
+                for (let j = startNum; j <= endNum; j++) {
+                    temp.push('IMG_' + dataLabel + '_' + j);
+                }
+            }
+            photoList = photoList.concat(temp);
+        }
+        return photoList
+    }
 }

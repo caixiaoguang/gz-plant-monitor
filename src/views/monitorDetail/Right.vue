@@ -19,7 +19,10 @@
     <div class="card event" style="max-height:200px">
       <div class="title">活动事件</div>
       <div class="event-container" @click="articleVisible=true">
-        <img :src="this.base_url+'images/DSC_7328.jpg'" style="width:100%" />
+        <img
+          :src="this.base_url+'activityImages/'+pointId+'/'+imagesList[0]+'.jpg'"
+          style="width:100%;cursor:pointer;"
+        />
         <span>{{title}}</span>
       </div>
     </div>
@@ -29,33 +32,39 @@
         <span class="el-icon-s-flag"></span>
         <span>{{title}}</span>
       </template>
-      <div class="article">
-        <img :src="this.base_url+'images/DSC_7328.jpg'" />
-        <div class="content">
-          <p>为进一步推进外来入侵生物防控工作，2019年7月17日，省农业农村厅科技教育处、省农业资源环境管理站联合贵阳市农业农村局、贵州大学林学院、贵州省科学院山地资源研究所、贵阳学院在花溪区石板井村举办了外来入侵生物三裂叶豚草现场灭除活动。贵州大学林学院生态学、林学专业学生、花溪区石板井村村民等60余人参加了现场灭除活动，现场还发放了三裂叶豚草防控明白纸和《贵州省外来入侵生物防控知识手册》。</p>
-          <p>三裂叶豚草是列入《中国第二批外来入侵物种名单》和《国家重点管理外来入侵物种名录（第一批）》的恶性杂草，具有极强的吸肥能力和再生能力，可使土壤肥力严重下降，牧草基本消失，对生物资源造成严重破坏，多样性丧失；也可诱发人畜哮喘、鼻炎，致中毒或死亡，严重危害人畜健康。2015年在我省贵阳市花溪区首次发现（《贵州林业科技》2017年2月刊），2017年—2018年快速传播，2019年5月省农业农村厅委托省科学院山地资源研究所成立调查组，对花溪区、乌当区、白云区等敏感区域三裂叶豚草入侵情况进行了初步调查，在花溪区范围内发现约20余亩三裂叶豚草，主要分布在道路旁、建筑废弃地以及水塘旁。三裂叶豚草喜阳光，在水边、农地、荒地皆宜存活，因而有大面积入侵农用地的风险。</p>
-        </div>
-      </div>
+
+      <el-carousel>
+        <el-carousel-item v-for="item in imagesList" :key="item">
+          <img :src="base_url + 'activityImages/'+pointId+'/'+item+'.jpg'" />
+          <p
+            class="img-label"
+            style="padding:10px;text-indent:30px;"
+          >{{detail&&(detail['活动文字']||'')}}</p>
+        </el-carousel-item>
+      </el-carousel>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { loadRemoteFile } from "../../utils/util";
+import { loadRemoteFile, getPhotoList } from "../../utils/util";
 export default {
   props: {
     title: {
       type: String
+    },
+    detail: {
+      type: Object
     }
   },
   components: {},
   data() {
     return {
-      address: this.$route.params.address,
+      address: this.$route.query.address,
       zhiWuBenDi: [],
       plantNums: [],
       articleVisible: false,
-      pointId: this.$route.params.id
+      pointId: this.$route.query.id
     };
   },
   created() {
@@ -74,11 +83,11 @@ export default {
   },
   computed: {
     isBenDiVisible() {
-      let list = ['522627001', '522628001', '522625001', '520111001'];
+      let list = ["522627001", "522628001", "522625001", "520111001"];
       return list.indexOf(this.pointId) == -1 ? true : false;
     },
     isPlntNumsVisible() {
-      let list = ['522627001', '522628001', '522625001'];
+      let list = ["522627001", "522628001", "522625001"];
       return list.indexOf(this.pointId) == -1 ? true : false;
     },
     chartData() {
@@ -92,6 +101,13 @@ export default {
         columns: ["年份", "株数（万株）"],
         rows: this.plantNums
       };
+    },
+    imagesList() {
+      if (this.detail && this.detail["活动图片"]) {
+        return getPhotoList(this.detail["活动图片"]);
+      } else {
+        return [];
+      }
     }
   },
   methods: {}

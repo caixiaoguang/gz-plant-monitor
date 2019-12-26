@@ -58,8 +58,8 @@
         <i class="icon el-icon-picture"></i>相关图片
       </div>
       <el-carousel style="overflow:hidden;">
-        <el-carousel-item v-for="item in [7327,7328,7329,7330]" :key="item">
-          <img :src="base_url + 'images/DSC_'+item+'.jpg'" @click="fullScreen" />
+        <el-carousel-item v-for="item in imgList" :key="item">
+          <img :src="base_url + 'images/'+pointId+'/'+item+'.jpg'" @click="fullScreen" />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -71,8 +71,8 @@
         <span>{{title}}</span>
       </template>
       <el-carousel>
-        <el-carousel-item v-for="item in [7327,7328,7329,7330]" :key="item">
-          <img :src="base_url + 'images/DSC_'+item+'.jpg'" />
+        <el-carousel-item v-for="item in imgList" :key="item">
+          <img :src="base_url + 'images/'+pointId+'/'+item+'.jpg'" />
         </el-carousel-item>
       </el-carousel>
     </el-dialog>
@@ -123,7 +123,10 @@ export default {
   props: {
     detail: { type: Object, defalut: () => {} },
     exampleDetail: { type: Object, defalut: () => {} },
-    title: { type: String }
+    title: { type: String },
+    imgList: {
+      type: Array
+    }
   },
   components: {
     MonitorDetail,
@@ -134,7 +137,8 @@ export default {
       detailVisible: false,
       exampleVisible: false,
       exampleTableNum: "",
-      imgBoxVisible: false
+      imgBoxVisible: false,
+      pointId: this.$route.query.id
     };
   },
   computed: {

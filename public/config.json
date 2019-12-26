@@ -1,3 +1,16 @@
 {
-    "imageUrl":"https://landsat.arcgis.com/arcgis/rest/services/Landsat/PS/ImageServer"
+  "use": "imageserver",
+  "imageserver": {
+    "url": "https://landsat.arcgis.com/arcgis/rest/services/Landsat/PS/ImageServer"
+  },
+  "mapserver": {
+    "url": "https://services.arcgisonline.com/arcgis/rest/services/Specialty/Soil_Survey_Map/MapServer"
+  },
+  "wms": {
+    "url": "http://data.marsgis.cn/geoserver/mars/wms",
+    "options": {
+      "layers": "mars:hfgh",
+      "format": "image/png"
+    }
+  }
 }

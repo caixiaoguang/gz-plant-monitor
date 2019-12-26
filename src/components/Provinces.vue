@@ -61,7 +61,6 @@ export default {
   created() {},
   mounted() {},
   beforeDestroy() {
-    // this.$map.removeControl(this.legend);
   },
   methods: {
     styleFunction(layer) {
@@ -85,7 +84,6 @@ export default {
 
     geojsonObjReadyCallback(geojsonObj) {
       this.geojsonObj.bringToBack();
-      // this.initLegend();
       this.geojsonObj.on("remove", () => {
         this.$map.removeControl(this.legend);
       });

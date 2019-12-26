@@ -11,7 +11,7 @@
     </div>
     <div class="card" style="min-height:350px;max-height:400px;">
       <div class="title">
-        <i class="icon el-icon-pie-chart"></i>各区县入侵面积比例
+        <i class="icon el-icon-pie-chart"></i>各市（州）入侵面积比例
       </div>
       <div class="content">
         <ve-pie :data="pieData" v-if="provincesTableReady"></ve-pie>
