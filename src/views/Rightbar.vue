@@ -34,7 +34,9 @@
     </div>
 
     <div class="card" style="max-height:340px">
-      <div class="title">各市（州）入侵数量</div>
+      <div class="title">
+        <i class="el-icon-info"></i>
+        各市（州）入侵数量</div>
       <ve-histogram :data="categoryData" height="360px"></ve-histogram>
     </div>
   </div>

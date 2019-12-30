@@ -91,6 +91,7 @@ export default {
   methods: {
     mapReady(map) {
       Vue.prototype.$map = map;
+      L.control.browserPrint({printModes:['Portrait']}).addTo(map);
     },
     layerControlReady(e) {
       Vue.prototype.$layerControl = e;

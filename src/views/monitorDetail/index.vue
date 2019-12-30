@@ -299,7 +299,7 @@ export default {
       let btn = "";
       this.leftImgList.push(firstImg);
       layer.bindTooltip(properties["组（小地名）"]);
-      layer.bindPopup(this.getExamplePopupContent(feature, photoList[1]));
+      layer.bindPopup(this.getExamplePopupContent(feature, photoList[0]));
       layer.on("popupopen", e => {
         this.examplePhotoList = photoList;
         this.exampleTitle =

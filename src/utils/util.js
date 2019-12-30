@@ -89,9 +89,23 @@ export function degree2decimal(degreeString) {
     return (Number(degreeSecond) / 60 + Number(degreeMinute)) / 60 + Number(degreeMain)
 }
 
+function addZero(length, num) {
+    let prefix = '';
+    let currentLen = String(num).length;
+    if (length == currentLen) {
+        return num
+    } else if (currentLen < length) {
+        for (let i = currentLen; i < length; i++) {
+            prefix += '0'
+        }
+        return prefix + num
+    }
+}
+
 
 export function getPhotoList(photoNum) {
     let photoList = [];
+    let numLength;
     photoNum = photoNum.replace(/\s*/g, "");
     if (photoNum.indexOf('DSC-') != -1) {
         let photoGroup = photoNum.split("DSC");
@@ -106,6 +120,7 @@ export function getPhotoList(photoNum) {
             let startNum = Number(startEndNum[1]);
             let endNum = Number(startEndNum[2]);
             let temp = [];
+            numLength = startEndNum[1].length;
 
             if (startNum < endNum) {
                 for (let i = startNum; i <= endNum; i++) {
@@ -121,18 +136,23 @@ export function getPhotoList(photoNum) {
                 photoList = photoList.concat(splitNum(el));
             }
         });
-        return photoList.map(el => ('DSC_' + el));
+        return photoList.map(el => {
+            el = addZero(numLength, el)
+            return 'DSC_' + el
+        });
     }
 
     if (photoNum.indexOf('DSCN') != -1) {
         let photoGroup = photoNum.split("DSCN");
         if (photoGroup.length == 2) {
-            return [photoGroup[1]]
+            return [('DSCN' + photoGroup[1])]
         }
 
         photoGroup = photoGroup.map(el => {
             return el.replace('-', '')
         });
+
+        numLength = photoGroup[1].length;
 
         for (let i = 1; i < photoGroup.length; i += 2) {
             let temp = [];
@@ -147,7 +167,10 @@ export function getPhotoList(photoNum) {
             photoList = photoList.concat(temp);
         }
 
-        return photoList.map(el => ('DSCN' + el))
+        return photoList.map(el => {
+            el = addZero(numLength, el)
+            return 'DSCN' + el
+        })
     }
 
     if (photoNum.indexOf('DSC') != -1 && photoNum.indexOf('DSCN') == -1 && photoNum.indexOf('DSC-') == -1) {
@@ -164,6 +187,8 @@ export function getPhotoList(photoNum) {
             let endNum = Number(startEndNum[1]);
             let temp = [];
 
+            numLength = startEndNum[0].length;
+
             if (startNum < endNum) {
                 for (let i = startNum; i <= endNum; i++) {
                     temp.push(i);
@@ -179,7 +204,10 @@ export function getPhotoList(photoNum) {
             }
         });
 
-        return photoList.map(el => ('DSC' + el))
+        return photoList.map(el => {
+            el = addZero(numLength, el)
+            return 'DSC' + el
+        })
     }
 
     if (photoNum.indexOf('IMG') != -1) {
@@ -199,9 +227,11 @@ export function getPhotoList(photoNum) {
             let startNum = Number(photoGroup[i].split('_')[1]);
             let endNum = Number(photoGroup[i + 1].split('_')[1]);
 
+            numLength = photoGroup[i].split('_')[1].length;
+
             if (startNum < endNum) {
                 for (let j = startNum; j <= endNum; j++) {
-                    temp.push('IMG_' + dataLabel + '_' + j);
+                    temp.push('IMG_' + dataLabel + '_' + addZero(numLength, j));
                 }
             }
             photoList = photoList.concat(temp);

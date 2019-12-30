@@ -102,7 +102,6 @@
 
 <script>
 import MonitorDetail from "./printPage/MonitorDetail";
-import ExampleFieldDetail from "./printPage/ExampleFiled";
 import "leaflet.marker.highlight";
 import "leaflet.marker.highlight/dist/leaflet.marker.highlight.css";
 
@@ -130,7 +129,6 @@ export default {
   },
   components: {
     MonitorDetail,
-    ExampleFieldDetail
   },
   data() {
     return {

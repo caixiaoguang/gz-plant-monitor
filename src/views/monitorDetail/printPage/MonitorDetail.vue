@@ -132,34 +132,58 @@
             colspan="14"
             style="width:364.7pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle"
           >
-            <p style="margin-top:1.2pt; margin-bottom:1.2pt; line-height:115%; font-size:10.5pt">
-              <span style="font-family:'Times New Roman'">□</span>
+            <p style="margin-top:1.2pt; margin-bottom:1pt; line-height:115%; font-size:10.5pt">
+             <div class="todo">□
+                <span class="checked" v-if="category.indexOf('水田')!=-1||category.indexOf('旱地')!=-1">√</span> 
+              </div>    
               <span style="font-family:'宋体'">农田</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="category.indexOf('')!=-1">√</span> 
+              </div>
               <span style="font-family:'宋体'">果园</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="category.indexOf('')!=-1">√</span> 
+              </div>
               <span style="font-family:'宋体'">菜地</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="category.indexOf('乔木林地')!=-1||category.indexOf('灌木林地')!=-1||category.indexOf('竹林')!=-1">√</span> 
+              </div>
               <span style="font-family:'宋体'">林地（乔木林</span>
               <span style="font-family:'Times New Roman'">/</span>
               <span style="font-family:'宋体'">灌木林</span>
               <span style="font-family:'Times New Roman'">/</span>
               <span style="font-family:'宋体'">灌丛）</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="category.indexOf('牧草地')!=-1">√</span> 
+              </div>
               <span style="font-family:'宋体'">草场</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="category.indexOf('荒山荒坡')!=-1">√</span> 
+              </div>
               <span style="font-family:'宋体'">荒地</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="category.indexOf('沟渠')!=-1">√</span> 
+              </div>
               <span style="font-family:'宋体'">沟渠</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="category.indexOf('村落')!=-1||category.indexOf('建设用地')!=-1">√</span> 
+              </div>
               <span style="font-family:'宋体'">农舍周边</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="category.indexOf('道路')!=-1">√</span> 
+              </div>
               <span style="font-family:'宋体'">路边</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="category.indexOf('水域')!=-1">√</span> 
+              </div>
               <span style="font-family:'宋体'">河流湖泊</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="category.indexOf('村落')!=-1">√</span> 
+              </div>
               <span style="font-family:'宋体'">公共绿地</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="category.indexOf('湿地')!=-1">√</span> 
+              </div>
               <span style="font-family:'宋体'">其他</span>
               <span style="font-family:'宋体'; text-decoration:underline"></span>
             </p>
@@ -183,13 +207,21 @@
             style="width:364.7pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle"
           >
             <p style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt">
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="detail['危害情况'] =='极严重'">√</span> 
+              </div>
               <span style="font-family:'宋体'">极严重，无法控制</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="detail['危害情况'] =='严重'">√</span> 
+              </div>
               <span style="font-family:'宋体'">严重，较难控制</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="detail['危害情况'] =='中等'">√</span> 
+              </div>
               <span style="font-family:'宋体'">中等，可以控制</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">□
+                <span class="checked" v-if="detail['危害情况'] =='轻度'">√</span> 
+              </div>
               <span style="font-family:'宋体'">轻度及以下</span>
             </p>
           </td>
@@ -593,9 +625,26 @@ export default {
     detail: {
       type: Object
     }
+  },
+  computed:{
+    category(){
+      return this.detail['发生生境'].split('、');
+    }
   }
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.todo{
+  position: relative;
+  display: inline-block;
+  font-size: 16px;
+  .checked{
+    font-family:Times New Roman;
+    position: absolute;
+    left: 4px;
+    top: 5px;
+    font-size: 12px;
+  }
+}
 </style>

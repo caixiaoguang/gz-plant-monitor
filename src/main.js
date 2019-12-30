@@ -29,8 +29,7 @@ Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
 
-// import './utils/decode'
-
+import 'leaflet.browser.print/dist/leaflet.browser.print'
 Vue.prototype.base_url = process.env.BASE_URL;
 
 
