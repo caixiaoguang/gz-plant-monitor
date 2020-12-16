@@ -133,19 +133,19 @@
             style="width:364.7pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle"
           >
             <p style="margin-top:1.2pt; margin-bottom:1pt; line-height:115%; font-size:10.5pt">
-             <div class="todo">□
+             <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="category.indexOf('水田')!=-1||category.indexOf('旱地')!=-1">√</span> 
               </div>    
               <span style="font-family:'宋体'">农田</span>
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="category.indexOf('')!=-1">√</span> 
               </div>
               <span style="font-family:'宋体'">果园</span>
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="category.indexOf('')!=-1">√</span> 
               </div>
               <span style="font-family:'宋体'">菜地</span>
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="category.indexOf('乔木林地')!=-1||category.indexOf('灌木林地')!=-1||category.indexOf('竹林')!=-1">√</span> 
               </div>
               <span style="font-family:'宋体'">林地（乔木林</span>
@@ -153,35 +153,35 @@
               <span style="font-family:'宋体'">灌木林</span>
               <span style="font-family:'Times New Roman'">/</span>
               <span style="font-family:'宋体'">灌丛）</span>
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="category.indexOf('牧草地')!=-1">√</span> 
               </div>
               <span style="font-family:'宋体'">草场</span>
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="category.indexOf('荒山荒坡')!=-1">√</span> 
               </div>
               <span style="font-family:'宋体'">荒地</span>
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="category.indexOf('沟渠')!=-1">√</span> 
               </div>
               <span style="font-family:'宋体'">沟渠</span>
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="category.indexOf('村落')!=-1||category.indexOf('建设用地')!=-1">√</span> 
               </div>
               <span style="font-family:'宋体'">农舍周边</span>
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="category.indexOf('道路')!=-1">√</span> 
               </div>
               <span style="font-family:'宋体'">路边</span>
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="category.indexOf('水域')!=-1">√</span> 
               </div>
               <span style="font-family:'宋体'">河流湖泊</span>
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="category.indexOf('村落')!=-1">√</span> 
               </div>
               <span style="font-family:'宋体'">公共绿地</span>
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="category.indexOf('湿地')!=-1">√</span> 
               </div>
               <span style="font-family:'宋体'">其他</span>
@@ -207,19 +207,19 @@
             style="width:364.7pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle"
           >
             <p style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt">
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="detail['危害情况'] =='极严重'">√</span> 
               </div>
               <span style="font-family:'宋体'">极严重，无法控制</span>
-              <div class="todo">□
-                <span class="checked" v-if="detail['危害情况'] =='严重'">√</span> 
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
+                <span class="checked" v-if="detail['危害情况'] =='严重'"> √</span> 
               </div>
               <span style="font-family:'宋体'">严重，较难控制</span>
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="detail['危害情况'] =='中等'">√</span> 
               </div>
               <span style="font-family:'宋体'">中等，可以控制</span>
-              <div class="todo">□
+              <div class="todo"><span style="font-size:25px;vertical-align:middle">□&nbsp;</span>
                 <span class="checked" v-if="detail['危害情况'] =='轻度'">√</span> 
               </div>
               <span style="font-family:'宋体'">轻度及以下</span>
@@ -321,14 +321,14 @@
             style="width:159.3pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle"
           >
             <p style="margin-top:1.2pt; margin-bottom:1.2pt; line-height:115%; font-size:12pt">
-              <span style="font-family:'Times New Roman'; font-size:11pt">□</span>
+              <span style="font-family:'Times New Roman'; font-size:11pt"><span style="font-size:25px;vertical-align:middle">□</span>&nbsp;</span>
               <span style="font-family:'宋体'; font-size:11pt">利用，利用方法</span>
               <span style="font-family:'宋体'; text-decoration:underline"></span>
               <span style="font-family:'宋体'; text-decoration:underline">{{detail['当地利用情况']}}</span>
               <span style="font-family:'宋体'; text-decoration:underline"></span>
             </p>
             <p style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt">
-              <span style="font-family:'Times New Roman'">□</span>
+              <span style="font-family:'Times New Roman'"><span style="font-size:25px;vertical-align:middle">□</span>&nbsp;</span>
               <span style="font-family:'宋体'">未利用</span>
             </p>
           </td>
@@ -504,17 +504,50 @@
             style="width:364.7pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle"
           >
             <p style="margin-top:1.2pt; margin-bottom:1.2pt; line-height:115%; font-size:10.5pt">
-              <span style="font-family:'Times New Roman'">□</span>
+              <div class="todo">
+              <span ><span style="font-size:25px;vertical-align:middle">□</span>&nbsp;</span>
+              <span class="checked" v-if="measures.indexOf('人工灭除')!=-1">√</span> 
+              </div>
+          
               <span style="font-family:'宋体'">人工灭除</span>
-              <span style="font-family:'Times New Roman'">□</span>
+
+              <div class="todo">
+              <span ><span style="font-size:25px;vertical-align:middle">□</span>&nbsp;</span>
+              <span class="checked" v-if="measures.indexOf('化学防治')!=-1">√</span> 
+              </div>
+           
+
               <span style="font-family:'宋体'">化学防治</span>
-              <span style="font-family:'Times New Roman'">□</span>
+
+              <div class="todo">
+              <span ><span style="font-size:25px;vertical-align:middle">□</span>&nbsp;</span>
+              <span class="checked" v-if="measures.indexOf('生物（天敌）防治')!=-1">√</span> 
+              </div>
+
+
               <span style="font-family:'宋体'">生物（天敌）防治</span>
-              <span style="font-family:'Times New Roman'">□</span>
+
+              <div class="todo">
+              <span ><span style="font-size:25px;vertical-align:middle">□</span>&nbsp;</span>
+              <span class="checked" v-if="measures.indexOf('替代控制')!=-1">√</span> 
+              </div>
+
+
               <span style="font-family:'宋体'">替代控制</span>
-              <span style="font-family:'Times New Roman'">□</span>
+
+              <div class="todo">
+              <span ><span style="font-size:25px;vertical-align:middle">□</span>&nbsp;</span>
+              <span class="checked" v-if="measures.indexOf('其他措施')!=-1">√</span> 
+              </div>
+
+
               <span style="font-family:'宋体'">其他措施</span>
-              <span style="font-family:'Times New Roman'">□</span>
+
+              <div class="todo">
+               <span ><span style="font-size:25px;vertical-align:middle">□</span>&nbsp;</span>
+              <span class="checked" v-if="measures.indexOf('无')!=-1">√</span> 
+              </div>
+              
               <span style="font-family:'宋体'">无</span>
             </p>
           </td>
@@ -537,17 +570,17 @@
             <p
               style="margin-top:1.2pt; margin-bottom:1.2pt; text-align:center; line-height:115%; font-size:10.5pt"
             >
-              <span style="font-family:'Times New Roman'">□</span>
+              <span ><span style="font-size:25px;vertical-align:middle">□</span>&nbsp;</span>
               <span style="font-family:'宋体'">无效果或不明显，面积继续扩大</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <span ><span style="font-size:25px;vertical-align:middle">□</span>&nbsp;</span>
               <span style="font-family:'宋体'">效果一般，扩散趋势减缓</span>
             </p>
             <p
               style="margin-top:1.2pt; margin-bottom:1.2pt; text-align:center; line-height:115%; font-size:10.5pt"
             >
-              <span style="font-family:'Times New Roman'">□</span>
+              <span ><span style="font-size:25px;vertical-align:middle">□</span>&nbsp;</span>
               <span style="font-family:'宋体'">效果较明显，发生面积大幅减少</span>
-              <span style="font-family:'Times New Roman'">□</span>
+              <span ><span style="font-size:25px;vertical-align:middle">□</span>&nbsp;</span>
               <span style="font-family:'宋体'">完全控制，发生区域清理</span>
             </p>
           </td>
@@ -629,6 +662,9 @@ export default {
   computed:{
     category(){
       return this.detail['发生生境'].split('、');
+    },
+    measures(){
+      return this.detail['治理措施'].split('、')
     }
   }
 };
@@ -642,8 +678,8 @@ export default {
   .checked{
     font-family:Times New Roman;
     position: absolute;
-    left: 4px;
-    top: 5px;
+    left: 3px;
+    top: 7px;
     font-size: 12px;
   }
 }

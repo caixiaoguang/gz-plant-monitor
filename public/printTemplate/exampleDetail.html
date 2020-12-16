@@ -704,6 +704,8 @@
 
         let detail = allDetail.find(el => el['表格编号'] == tableNum);
 
+        console.log(detail);
+
         for (let key in detail) {
             if (key != 'properties') {
                 let el = document.querySelector('.' + key);

@@ -37,16 +37,17 @@ div {
 @font-face {
   font-family: "webfont";
   font-display: swap;
-  src: url("//at.alicdn.com/t/webfont_4eumfzjfxv6.eot"); /* IE9*/
-  src: url("//at.alicdn.com/t/webfont_4eumfzjfxv6.eot?#iefix")
-      format("embedded-opentype"),
-    /* IE6-IE8 */ url("//at.alicdn.com/t/webfont_4eumfzjfxv6.woff2")
-      format("woff2"),
-    url("//at.alicdn.com/t/webfont_4eumfzjfxv6.woff") format("woff"),
-    /* chrome、firefox */ url("//at.alicdn.com/t/webfont_4eumfzjfxv6.ttf")
-      format("truetype"),
+  src:
+  // src: url("//at.alicdn.com/t/webfont_4eumfzjfxv6.eot"); /* IE9*/
+  // src: url("//at.alicdn.com/t/webfont_4eumfzjfxv6.eot?#iefix")
+      // format("embedded-opentype"),
+    // /* IE6-IE8 */ url("//at.alicdn.com/t/webfont_4eumfzjfxv6.woff2")
+      // format("woff2"),
+    // url("//at.alicdn.com/t/webfont_4eumfzjfxv6.woff") format("woff"),
+    /* chrome、firefox */ url("../assets/font/webfont.ttf")
+      format("truetype")
     /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-      url("//at.alicdn.com/t/webfont_4eumfzjfxv6.svg#站酷高端黑") format("svg"); /* iOS 4.1- */
+      // url("//at.alicdn.com/t/webfont_4eumfzjfxv6.svg#站酷高端黑") format("svg"); /* iOS 4.1- */
 }
 
 .web-font {

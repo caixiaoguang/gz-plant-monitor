@@ -3,6 +3,9 @@
     <div class="card monitor-info">
       <div class="title">
         <i class="icon el-icon-document-copy"></i>监测点&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;介绍
+        <el-tooltip class="item" effect="dark" content="三维地形" placement="top-start">
+          <i class="priview el-icon-map-location" @click="open3d"></i>
+        </el-tooltip>
         <el-tooltip class="item" effect="dark" content="预览" placement="top-start">
           <i class="priview el-icon-view" @click="preview"></i>
         </el-tooltip>
@@ -97,6 +100,11 @@
         ></iframe>
       </div>
     </el-dialog>
+
+    <!-- 三维弹窗 -->
+    <el-dialog :visible.sync="threeDVsible" width="80%" title="三维地形">
+      <iframe :src="base_url+'3d/index.html'" style="width:100%;height:800px;"></iframe>
+    </el-dialog>
   </div>
 </template>
 
@@ -128,7 +136,7 @@ export default {
     }
   },
   components: {
-    MonitorDetail,
+    MonitorDetail
   },
   data() {
     return {
@@ -136,7 +144,8 @@ export default {
       exampleVisible: false,
       exampleTableNum: "",
       imgBoxVisible: false,
-      pointId: this.$route.query.id
+      pointId: this.$route.query.id,
+      threeDVsible: false
     };
   },
   computed: {
@@ -201,6 +210,9 @@ export default {
     //全屏轮播图
     fullScreen() {
       this.imgBoxVisible = true;
+    },
+    open3d() {
+      this.threeDVsible = true;
     }
   }
 };
@@ -235,6 +247,12 @@ export default {
     }
   }
   .el-dialog__wrapper {
+    // .el-dialog__header{
+    //   height: 5px;
+    // }
+    // .el-dialog__headerbtn{
+    //   top: 3px;
+    // }
     .el-carousel {
       height: 40vw;
       .el-carousel__container {

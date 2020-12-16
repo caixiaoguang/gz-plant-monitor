@@ -80,7 +80,7 @@ export default {
                 layer.on({
                     mouseover: vm.highlightFeature,
                     mouseout: vm.resetHighlight,
-                    // click: vm.zoomToFeature
+                    click: vm.handleClick
                 });
 
                 layer.on("popupopen", () => {

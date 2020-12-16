@@ -126,7 +126,8 @@ export default {
       markerGeojsonReady: false,
       isOrigin: this.$route.query.isOrigin,
       originPlant: {},
-      leftImgList: []
+      leftImgList: [],
+      threeDVsible: false
     };
   },
   computed: {
@@ -333,6 +334,9 @@ export default {
       ("</div>");
 
       return content;
+    },
+    handleClick() {
+      this.threeDVsible = true;
     }
   }
 };

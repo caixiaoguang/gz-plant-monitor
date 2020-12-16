@@ -26,12 +26,6 @@ function readWorkbook(workbook) {
     return result
 }
 
-// export function loadRemoteFile(url, callback) {
-//     readWorkbookFromRemoteFile(url, function (workbook) {
-//         readWorkbook(workbook, callback);
-//     });
-// }
-
 export function loadRemoteFile(url) {
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
