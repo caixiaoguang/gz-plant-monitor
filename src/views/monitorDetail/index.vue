@@ -237,6 +237,8 @@ export default {
           });
         }
       });
+
+      // console.log(exampleFiled2Obj);
       //表格数据转化为geojson
       for (let key in exampleFiled2Obj) {
         let lng = degree2decimal(exampleFiled2Obj[key]["经度"]);
