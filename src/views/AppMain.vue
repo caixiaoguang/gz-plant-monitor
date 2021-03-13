@@ -28,7 +28,7 @@
           v-for="col in Object.keys(tableData[tableType][0])"
           :key="col"
           :prop="col"
-          :label="col"
+          :label="col==='总面积'|| col === '监测面积' ? `${col}（亩）`:col"
           :resizable="true"
           :show-overflow-tooltip="true"
           :sortable="true"

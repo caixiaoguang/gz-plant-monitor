@@ -1,5 +1,5 @@
 {
-  "use": "imageserver",
+  "use": "wms",
   "imageserver": {
     "url": "https://landsat.arcgis.com/arcgis/rest/services/Landsat/PS/ImageServer"
   },

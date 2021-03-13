@@ -1,5 +1,4 @@
 <script>
-import Leaflet from "leaflet";
 import { findRealParent } from "vue2-leaflet";
 const esri = require("esri-leaflet");
 import axios from "axios";
@@ -11,10 +10,10 @@ export default {
     this.layerType = "overlay";
     this.name = "航拍影像";
     let parentContainer = findRealParent(this.$parent);
-    axios.get(`${this.base_url}config.json`).then(res => {
+    axios.get(`${this.base_url}config.json`).then((res) => {
       this.options = res.data;
       this.createMapobj(this.options.use);
-      parentContainer.addLayer(this, true);
+      parentContainer.addLayer(this, false);
     });
   },
   methods: {
@@ -24,8 +23,6 @@ export default {
       }
 
       if (type == "mapserver") {
-        console.log(this.options.mapserver);
-
         this.mapObject = esri.dynamicMapLayer(this.options.mapserver);
       }
 
@@ -35,11 +32,11 @@ export default {
           this.options.wms.options
         );
       }
-    }
+    },
   },
   render() {
     return null;
-  }
+  },
 };
 </script>
 

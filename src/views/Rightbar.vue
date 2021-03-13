@@ -23,12 +23,12 @@
         <template v-if="tableType=='原生境'">
           <el-table-column prop="O_Name" label="名称" :show-overflow-tooltip="true"></el-table-column>
           <el-table-column prop="主要保护物种" label="保护物种" :show-overflow-tooltip="true"></el-table-column>
-          <el-table-column prop="总面积" label="总面积"></el-table-column>
+          <el-table-column prop="总面积" label="总面积（亩）"></el-table-column>
         </template>
         <template v-else>
           <el-table-column prop="O_Name" label="名称" :show-overflow-tooltip="true"></el-table-column>
           <el-table-column prop="入侵监测物种" label="入侵物种"></el-table-column>
-          <el-table-column prop="监测面积" label="监测面积"></el-table-column>
+          <el-table-column prop="监测面积" label="监测面积（亩）"></el-table-column>
         </template>
       </el-table>
     </div>

@@ -26,7 +26,7 @@
           v-for="col in Object.keys(barRows[0])"
           :key="col"
           :prop="col"
-          :label="col"
+          :label="col==='入侵种类'?col:`${col}（亩）`"
           :resizable="true"
           :show-overflow-tooltip="true"
           :sortable="true"
