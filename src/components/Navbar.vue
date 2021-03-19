@@ -3,10 +3,23 @@
     <div class="web-font title" @click="goHome">
       <i class="home iconfont icon-zhuye"></i>
       <span v-if="!isHome">贵州省农业外来入侵植物监测台</span>
-      <span v-else>{{subTitle}}</span>
+      <span v-else>{{ subTitle }}</span>
     </div>
     <div class="tool">
-      <el-tooltip class="item" effect="dark" content="全屏" v-if="!isFullScreen">
+      <el-link
+        v-for="year in years"
+        :key="year"
+        :type="year === currentYear ? 'primary' : 'info'"
+        :href="`${host+year}/`"
+        >{{ year }}</el-link
+      >
+
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="全屏"
+        v-if="!isFullScreen"
+      >
         <i class="iconfont icon-quanping" @click="fullScreen"></i>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="退出全屏" v-else>
@@ -20,15 +33,25 @@
 import bus from "../utils/bus";
 export default {
   data() {
-    return { subTitle: "", isFullScreen: false };
+    return {
+      subTitle: "",
+      isFullScreen: false,
+      years: ["2019", "2020", "2021"],
+    };
   },
   computed: {
     isHome() {
       return this.$route.name === "monitorDetail";
+    },
+    currentYear() {
+      return window.location.href.split("plantMonit")[1].slice(1, 5);
+    },
+    host(){
+      return window.location.href.split(this.currentYear)[0]
     }
   },
   mounted() {
-    bus.$on("getSubTitle", e => {
+    bus.$on("getSubTitle", (e) => {
       this.subTitle = e;
     });
   },
@@ -62,8 +85,8 @@ export default {
         element.msExitFullscreen();
       }
       this.isFullScreen = false;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -88,9 +111,13 @@ export default {
   }
   .tool {
     margin-right: 20px;
+    .el-link {
+      margin-right: 20px;
+    }
     cursor: pointer;
     i {
       font-size: 25px;
+      margin-left: 50px;
     }
     .iconfont {
       &:hover {

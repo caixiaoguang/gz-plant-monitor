@@ -1,9 +1,7 @@
 module.exports = {
   lintOnSave: false,
   productionSourceMap: false,
-  // publicPath: process.env.NODE_ENV === 'production'
-  //   ? '/gz-plant-monitor/'
-  //   : '/',
+  publicPath:'plantMonit/2021',
   css: {
     extract: false
   },
